@@ -96,7 +96,7 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6rem 2rem 4rem;
+  padding: 8rem 2rem 4rem;
   position: relative;
 }
 
@@ -105,12 +105,15 @@ nav {
   width: 100%;
   margin: 0 auto;
   text-align: center;
+  position: relative;
+  z-index: 1;
 }
 
 /* Hero Section - Dark gradient with green accent */
 .hero-section {
   background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
   color: white;
+  padding-top: 10rem;
 }
 
 .hero-label {
@@ -467,5 +470,4 @@ footer {
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
-}
 }
