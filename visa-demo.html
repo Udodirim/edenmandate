@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nigeria Immigration Services - Visa Requirements</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --nigeria-green: #008751;
+            --nigeria-white: #ffffff;
+            --dark-bg: #1a1a1a;
+            --light-gray: #f5f5f5;
+            --text-dark: #333;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--nigeria-green) 0%, #006d42 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .demo-badge {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, var(--nigeria-green) 0%, #006d42 100%);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .cta-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .cta-box h3 {
+            margin-bottom: 1rem;
+        }
+
+        .cta-box p {
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .chat-prompt {
+            background: white;
+            color: var(--nigeria-green);
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+
+        .chat-prompt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Content Sections */
+        .content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section h2 {
+            color: var(--nigeria-green);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            color: var(--nigeria-green);
+            margin-bottom: 1rem;
+        }
+
+        /* Chatbot Styles */
+        #chat-bubble {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--nigeria-green) 0%, #006d42 100%);
+            border-radius: 50%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        #chat-bubble:hover {
+            transform: scale(1.1);
+        }
+
+        #chat-bubble svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+        }
+
+        #chat-widget {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 380px;
+            height: 600px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1001;
+        }
+
+        #chat-widget.open {
+            display: flex;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--nigeria-green) 0%, #006d42 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-header h3 {
+            font-size: 1.1rem;
+        }
+
+        .chat-header small {
+            display: block;
+            opacity: 0.9;
+            font-size: 0.85rem;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            background: #f9f9f9;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-bubble {
+            max-width: 75%;
+            padding: 0.75rem 1rem;
+            border-radius: 15px;
+            line-height: 1.5;
+        }
+
+        .bot .message-bubble {
+            background: white;
+            color: var(--text-dark);
+            border-bottom-left-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .user .message-bubble {
+            background: var(--nigeria-green);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 0.3rem;
+            padding: 0.75rem 1rem;
+            background: white;
+            border-radius: 15px;
+            width: fit-content;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--nigeria-green);
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+            }
+            30% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .quick-replies {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .quick-reply-btn {
+            background: white;
+            border: 2px solid var(--nigeria-green);
+            color: var(--nigeria-green);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .quick-reply-btn:hover {
+            background: var(--nigeria-green);
+            color: white;
+        }
+
+        .chat-input-container {
+            padding: 1rem;
+            background: white;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .chat-input:focus {
+            border-color: var(--nigeria-green);
+        }
+
+        .send-btn {
+            background: var(--nigeria-green);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .send-btn:hover {
+            background: #006d42;
+        }
+
+        .powered-by {
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.75rem;
+            color: #999;
+            background: #f9f9f9;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .powered-by a {
+            color: var(--nigeria-green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-bg);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            #chat-widget {
+                width: 100%;
+                height: 100%;
+                bottom: 0;
+                right: 0;
+                border-radius: 0;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">🇳🇬 Nigeria Immigration Services</div>
+            <div class="demo-badge">💬 Interactive Demo</div>
+        </div>
+    </header>
+
+    <div class="hero">
+        <h1>Check Your Visa Requirements for Nigeria</h1>
+        <p>Get instant information about visa requirements, types, and application process</p>
+        <div class="cta-box">
+            <h3>👋 Need Help?</h3>
+            <p>Ask our AI assistant about visa requirements for your country</p>
+            <button class="chat-prompt" onclick="openChat()">Start Chat</button>
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="section">
+            <h2>Visa Information</h2>
+            <div class="cards">
+                <div class="card">
+                    <h3>📋 Visa Types</h3>
+                    <p>Tourist Visa, Business Visa, Student Visa, Transit Visa, and more. Each visa type has specific requirements and validity periods.</p>
+                </div>
+                <div class="card">
+                    <h3>⏰ Processing Time</h3>
+                    <p>Standard processing takes 5-7 business days. Express service available for urgent applications with additional fees.</p>
+                </div>
+                <div class="card">
+                    <h3>💼 Requirements</h3>
+                    <p>Valid passport, passport photos, application form, proof of accommodation, and other documents depending on visa type.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>How to Use This Demo</h2>
+            <div class="card">
+                <h3>🤖 Interactive Chatbot</h3>
+                <p>Click the chat button in the bottom-right corner to start a conversation. The chatbot will ask which country you're from and provide instant visa information for Nigeria.</p>
+                <p style="margin-top: 1rem;"><strong>Try asking:</strong></p>
+                <ul style="margin-left: 2rem; margin-top: 0.5rem;">
+                    <li>"I'm from Ghana"</li>
+                    <li>"What about Kenya?"</li>
+                    <li>"I'm from the United States"</li>
+                    <li>"How about Iran?"</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Bubble -->
+    <div id="chat-bubble" onclick="toggleChat()">
+        <svg viewBox="0 0 24 24">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
+        </svg>
+    </div>
+
+    <!-- Chat Widget -->
+    <div id="chat-widget">
+        <div class="chat-header">
+            <div>
+                <h3>Visa InfoBot</h3>
+                <small>Powered by AI</small>
+            </div>
+            <button class="close-chat" onclick="toggleChat()">×</button>
+        </div>
+        <div class="chat-messages" id="chat-messages"></div>
+        <div class="powered-by">
+            Powered by <a href="https://www.edenmandate.com" target="_blank">Eden Mandate AI Tools</a>
+        </div>
+        <div class="chat-input-container">
+            <input type="text" class="chat-input" id="chat-input" placeholder="Type your message..." onkeypress="handleKeyPress(event)">
+            <button class="send-btn" onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2025 Nigeria Immigration Services Demo | Built by <a href="https://www.edenmandate.com" style="color: #008751; text-decoration: none;">Eden Mandate AI Tools</a></p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.7;">Portfolio Demo - Not affiliated with actual Nigerian Immigration Services</p>
+    </footer>
+
+    <script>
+        // Visa data (simplified version based on your bot's logic)
+        const visaData = {
+            visaFree: [
+                "Benin", "Burkina Faso", "Cameroon", "Cape Verde", "Chad", "Gambia", "Ghana", 
+                "Guinea", "Guinea-Bissau", "Ivory Coast", "Liberia", "Mali", "Niger", "Senegal", 
+                "Sierra Leone", "Togo", "ECOWAS"
+            ],
+            visaRequired: {
+                "United States": {
+                    types: ["Tourist Visa", "Business Visa", "Student Visa", "Work Visa"],
+                    requirements: "Valid passport (6+ months), passport photos, application form, proof of accommodation, return ticket, financial proof"
+                },
+                "United Kingdom": {
+                    types: ["Tourist Visa", "Business Visa", "Work Visa", "Student Visa"],
+                    requirements: "Valid passport, visa application, travel itinerary, proof of funds, invitation letter (if applicable)"
+                },
+                "Kenya": {
+                    types: ["Tourist Visa", "Business Visa", "Transit Visa", "Student Visa"],
+                    requirements: "Valid passport, completed application form, passport photos, yellow fever certificate, proof of accommodation"
+                },
+                "Sudan": {
+                    types: ["Tourist Visa", "Business Visa", "Transit Visa"],
+                    requirements: "Valid passport, visa application form, invitation letter, proof of accommodation, return ticket, travel insurance"
+                },
+                "Iran": {
+                    types: ["Tourist Visa", "Business Visa", "Transit Visa"],
+                    requirements: "Valid passport, visa application form, invitation letter, proof of funds, travel insurance"
+                },
+                "China": {
+                    types: ["Tourist Visa", "Business Visa", "Student Visa", "Work Visa"],
+                    requirements: "Valid passport, application form, passport photos, flight reservations, hotel bookings, financial statements"
+                },
+                "India": {
+                    types: ["Tourist Visa", "Business Visa", "Student Visa", "Work Visa"],
+                    requirements: "Valid passport, visa application, passport photos, proof of accommodation, return ticket, financial proof"
+                },
+                "South Africa": {
+                    types: ["Tourist Visa", "Business Visa", "Transit Visa", "Work Visa"],
+                    requirements: "Valid passport (6+ months), completed visa form, passport photos, proof of funds, return ticket"
+                },
+                "Canada": {
+                    types: ["Tourist Visa", "Business Visa", "Student Visa", "Work Visa"],
+                    requirements: "Valid passport, visa application, passport photos, proof of financial support, invitation letter (if applicable)"
+                },
+                "Australia": {
+                    types: ["Tourist Visa", "Business Visa", "Student Visa", "Work Visa"],
+                    requirements: "Valid passport, online visa application, passport photos, proof of funds, health insurance"
+                },
+                "France": {
+                    types: ["Tourist Visa", "Business Visa", "Student Visa", "Work Visa"],
+                    requirements: "Valid passport, Schengen visa application, passport photos, travel insurance, proof of accommodation"
+                },
+                "Germany": {
+                    types: ["Tourist Visa", "Business Visa", "Student Visa", "Work Visa"],
+                    requirements: "Valid passport, Schengen visa application, passport photos, travel insurance, financial proof"
+                },
+                "Brazil": {
+                    types: ["Tourist Visa", "Business Visa", "Transit Visa"],
+                    requirements: "Valid passport, visa application, passport photos, yellow fever certificate (recommended), proof of funds"
+                },
+                "Bolivia": {
+                    types: ["Tourist Visa", "Business Visa", "Transit Visa"],
+                    requirements: "Valid passport (6+ months), visa form, photos, yellow fever certificate, proof of accommodation, return ticket"
+                },
+                "default": {
+                    types: ["Tourist Visa", "Business Visa", "Transit Visa"],
+                    requirements: "Valid passport (6+ months validity), completed visa application, passport photographs, proof of accommodation, return flight ticket, proof of sufficient funds"
+                }
+            }
+        };
+
+        let chatState = {
+            awaitingCountry: true,
+            currentCountry: null,
+            conversationStarted: false
+        };
+
+        function toggleChat() {
+            const widget = document.getElementById('chat-widget');
+            const isOpen = widget.classList.toggle('open');
+            
+            if (isOpen && !chatState.conversationStarted) {
+                initChat();
+            }
+        }
+
+        function openChat() {
+            document.getElementById('chat-widget').classList.add('open');
+            if (!chatState.conversationStarted) {
+                initChat();
+            }
+        }
+
+        function initChat() {
+            chatState.conversationStarted = true;
+            addBotMessage("👋 Hello! Welcome to Nigeria Visa InfoBot.");
+            setTimeout(() => {
+                addBotMessage("Which country are you from? I'll tell you if you need a visa to enter Nigeria.");
+            }, 800);
+        }
+
+        function addBotMessage(text, showTyping = true) {
+            const messagesContainer = document.getElementById('chat-messages');
+            
+            if (showTyping) {
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'message bot';
+                typingDiv.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+                messagesContainer.appendChild(typingDiv);
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                
+                setTimeout(() => {
+                    typingDiv.remove();
+                    addActualMessage(text);
+                }, 1500);
+            } else {
+                addActualMessage(text);
+            }
+        }
+
+        function addActualMessage(text) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message bot';
+            messageDiv.innerHTML = `<div class="message-bubble">${text}</div>`;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function addUserMessage(text) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message user';
+            messageDiv.innerHTML = `<div class="message-bubble">${text}</div>`;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function addQuickReplies(options) {
+            const messagesContainer = document.getElementById('chat-messages');
+            const repliesDiv = document.createElement('div');
+            repliesDiv.className = 'quick-replies';
+            
+            options.forEach(option => {
+                const btn = document.createElement('button');
+                btn.className = 'quick-reply-btn';
+                btn.textContent = option;
+                btn.onclick = () => {
+                    repliesDiv.remove();
+                    processUserInput(option);
+                };
+                repliesDiv.appendChild(btn);
+            });
+            
+            messagesContainer.appendChild(repliesDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function extractCountry(text) {
+            const cleanText = text.trim().toLowerCase();
+            
+            // PRIORITY 1: Check if user just typed the country name directly
+            // Examples: "Sudan", "Ghana", "Kenya", "iran"
+            
+            // Check visa-free countries for exact match
+            for (let country of visaData.visaFree) {
+                if (cleanText === country.toLowerCase()) {
+                    return { country, needsVisa: false };
+                }
+            }
+            
+            // Check visa-required countries for exact match (excluding 'default')
+            for (let country in visaData.visaRequired) {
+                if (country !== 'default' && cleanText === country.toLowerCase()) {
+                    return { country, needsVisa: true };
+                }
+            }
+            
+            // PRIORITY 2: Check for country names within longer text
+            // Examples: "I'm from Sudan", "How about Ghana?"
+            
+            // Check visa-free countries within text
+            for (let country of visaData.visaFree) {
+                if (cleanText.includes(country.toLowerCase())) {
+                    return { country, needsVisa: false };
+                }
+            }
+            
+            // Check visa-required countries within text (excluding 'default')
+            for (let country in visaData.visaRequired) {
+                if (country !== 'default' && cleanText.includes(country.toLowerCase())) {
+                    return { country, needsVisa: true };
+                }
+            }
+            
+            // PRIORITY 3: Extract country from common sentence patterns
+            const patterns = [
+                /from ([a-z\s]+)/i,
+                /i'm from ([a-z\s]+)/i,
+                /i am from ([a-z\s]+)/i,
+                /what about ([a-z\s]+)/i,
+                /how about ([a-z\s]+)/i
+            ];
+            
+            for (let pattern of patterns) {
+                const match = text.match(pattern);
+                if (match) {
+                    const country = match[1].trim();
+                    // Capitalize first letter of each word
+                    const capitalizedCountry = country.replace(/\b\w/g, l => l.toUpperCase());
+                    return { country: capitalizedCountry, needsVisa: true }; // Default to visa required for unknown
+                }
+            }
+            
+            return null;
+        }
+
+        function processUserInput(text) {
+            addUserMessage(text);
+            document.getElementById('chat-input').value = '';
+            
+            const lowercaseText = text.toLowerCase();
+            
+            // Handle greetings
+            if (/^(hi|hello|hey|good morning|good afternoon)/i.test(text)) {
+                addBotMessage("Hello! Which country are you from?");
+                return;
+            }
+            
+            // Handle thank you
+            if (/thank(s| you)/i.test(text)) {
+                addBotMessage("You're welcome! Feel free to ask about other countries. 😊");
+                chatState.awaitingCountry = true;
+                chatState.currentCountry = null;
+                return;
+            }
+            
+            // Handle visa type selection if we have a current country
+            if (chatState.currentCountry && !chatState.awaitingCountry) {
+                handleVisaTypeSelection(text);
+                return;
+            }
+            
+            // Handle country input
+            const countryInfo = extractCountry(text);
+            
+            if (!countryInfo) {
+                addBotMessage("I didn't catch which country you mentioned. Could you please specify the country? For example: 'I'm from Ghana' or 'How about Kenya?'");
+                return;
+            }
+            
+            const { country, needsVisa } = countryInfo;
+            chatState.currentCountry = country;
+            chatState.awaitingCountry = false;
+            
+            if (!needsVisa) {
+                addBotMessage(`Great news! 🎉 Citizens of ${country} can enter Nigeria <strong>visa-free</strong> for up to 90 days as part of ECOWAS free movement protocol.`);
+                setTimeout(() => {
+                    addBotMessage("Would you like to check visa requirements for another country?");
+                    chatState.awaitingCountry = true;
+                    chatState.currentCountry = null;
+                }, 1500);
+            } else {
+                const visaInfo = visaData.visaRequired[country] || visaData.visaRequired.default;
+                addBotMessage(`Citizens of ${country} <strong>require a visa</strong> to enter Nigeria. 📋`);
+                
+                setTimeout(() => {
+                    addBotMessage(`<strong>Available visa types:</strong><br>${visaInfo.types.join(", ")}`);
+                    setTimeout(() => {
+                        addBotMessage(`<strong>General Requirements:</strong><br>${visaInfo.requirements}`);
+                        setTimeout(() => {
+                            addBotMessage("Click a visa type below for specific requirements:");
+                            addQuickReplies(visaInfo.types);
+                        }, 1000);
+                    }, 1500);
+                }, 1500);
+            }
+        }
+        
+        function handleVisaTypeSelection(visaType) {
+            const country = chatState.currentCountry;
+            const visaInfo = visaData.visaRequired[country] || visaData.visaRequired.default;
+            
+            // Normalize visa type text
+            const normalizedType = visaType.toLowerCase().trim();
+            
+            // Check if it matches one of the visa types
+            const matchedType = visaInfo.types.find(type => 
+                normalizedType.includes(type.toLowerCase().replace(' visa', ''))
+            );
+            
+            if (!matchedType) {
+                // If not a visa type, treat as new country query
+                chatState.awaitingCountry = true;
+                chatState.currentCountry = null;
+                processUserInput(visaType);
+                return;
+            }
+            
+            // Provide specific requirements for the visa type
+            let specificRequirements = '';
+            
+            if (normalizedType.includes('tourist')) {
+                specificRequirements = `<strong>${matchedType} Specific Requirements:</strong><br>
+                • Confirmed hotel reservation or host address<br>
+                • Return flight ticket<br>
+                • Travel itinerary<br>
+                • Proof of sufficient funds ($100/day minimum)<br>
+                • Recent bank statements (3 months)<br>
+                • Passport valid for 6+ months<br>
+                <br>
+                <strong>Validity:</strong> 3 months (single entry)<br>
+                <strong>Processing:</strong> 5-7 business days`;
+            } else if (normalizedType.includes('business')) {
+                specificRequirements = `<strong>${matchedType} Specific Requirements:</strong><br>
+                • Invitation letter from Nigerian company<br>
+                • Company registration documents<br>
+                • Letter from your employer<br>
+                • Business registration certificate<br>
+                • Purpose of visit statement<br>
+                • Proof of business relationships<br>
+                <br>
+                <strong>Validity:</strong> 3-6 months (multiple entry possible)<br>
+                <strong>Processing:</strong> 5-10 business days`;
+            } else if (normalizedType.includes('student')) {
+                specificRequirements = `<strong>${matchedType} Specific Requirements:</strong><br>
+                • Admission letter from Nigerian institution<br>
+                • School acceptance confirmation<br>
+                • Proof of tuition payment<br>
+                • Academic transcripts<br>
+                • Sponsor letter (if applicable)<br>
+                • Proof of accommodation<br>
+                <br>
+                <strong>Validity:</strong> Duration of study<br>
+                <strong>Processing:</strong> 10-15 business days`;
+            } else if (normalizedType.includes('work')) {
+                specificRequirements = `<strong>${matchedType} Specific Requirements:</strong><br>
+                • Employment contract from Nigerian employer<br>
+                • Work permit approval from Nigerian Immigration<br>
+                • Company CAC documents<br>
+                • Professional qualifications<br>
+                • CV/Resume<br>
+                • Medical certificate<br>
+                <br>
+                <strong>Validity:</strong> Duration of contract (up to 2 years)<br>
+                <strong>Processing:</strong> 15-30 business days`;
+            } else if (normalizedType.includes('transit')) {
+                specificRequirements = `<strong>${matchedType} Specific Requirements:</strong><br>
+                • Valid visa for final destination<br>
+                • Confirmed onward flight ticket (within 48 hours)<br>
+                • Passport valid for 6+ months<br>
+                • Proof of funds for transit period<br>
+                <br>
+                <strong>Validity:</strong> 48 hours<br>
+                <strong>Processing:</strong> 2-3 business days`;
+            } else {
+                specificRequirements = `<strong>${matchedType} Requirements:</strong><br>
+                ${visaInfo.requirements}<br>
+                <br>
+                <strong>Validity:</strong> Varies by visa type<br>
+                <strong>Processing:</strong> 5-10 business days`;
+            }
+            
+            addBotMessage(specificRequirements);
+            
+            setTimeout(() => {
+                addBotMessage(`Need information about a different visa type for ${country}? Or would you like to check another country?`);
+                // Keep state so they can ask about another visa type or country
+            }, 2000);
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const text = input.value.trim();
+            
+            if (text) {
+                processUserInput(text);
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>
