@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Intelligence Analyser - Eden Mandate</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary-dark: #0f1419; --accent-green: #10b981; --primary-yellow: #fef08a;
+            --dark-green: #065f46; --forest-green: #064e3b; --bg-gradient-start: #0a192f;
+            --bg-gradient-end: #064e3b; --dark-bg: #1a202c; --card-bg: #2d3748;
+            --text-light: #f7fafc; --text-muted: #a0aec0; --border-color: #4a5568;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+            color: var(--text-light); min-height: 100vh; padding: 2rem 1rem;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header {
+            text-align: center; margin-bottom: 3rem; padding: 3rem 2rem;
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            border-radius: 20px; box-shadow: 0 20px 60px rgba(10, 25, 47, 0.4);
+        }
+        .header h1 { font-size: clamp(2rem, 5vw, 2.75rem); margin-bottom: 0.75rem; font-weight: 700; }
+        .header p { font-size: 1.15rem; opacity: 0.95; margin-bottom: 0.5rem; }
+        .badge {
+            display: inline-block; background: rgba(255,255,255,0.2); padding: 0.5rem 1.25rem;
+            border-radius: 20px; font-size: 0.9rem; backdrop-filter: blur(10px); margin-top: 0.5rem;
+        }
+        .dataset-btn {
+            display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem;
+            background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 12px; color: white; text-decoration: none; font-weight: 600;
+            transition: all 0.3s; font-size: 0.95rem;
+        }
+        .dataset-btn:hover {
+            background: rgba(255,255,255,0.25); transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255,255,255,0.2);
+        }
+        .category-section {
+            background: var(--card-bg); border-radius: 20px; padding: 2.5rem;
+            margin-bottom: 2rem; border: 1px solid var(--border-color);
+        }
+        .category-section h2 { font-size: 1.75rem; margin-bottom: 1.5rem; color: var(--primary-dark); }
+        .category-buttons {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;
+        }
+        .category-btn {
+            padding: 1.5rem; background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+            border: 2px solid var(--accent-green); border-radius: 16px; color: white;
+            cursor: pointer; transition: all 0.3s; font-size: 1.1rem; font-weight: 600; text-align: center;
+        }
+        .category-btn:hover {
+            transform: translateY(-4px); box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+        }
+        .article-section {
+            background: var(--card-bg); border-radius: 20px; padding: 2.5rem;
+            margin-bottom: 2rem; border: 1px solid var(--border-color); display: none;
+        }
+        .article-section.active { display: block; animation: slideIn 0.4s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .article-section h3 { font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--accent-green); }
+        .article-list { display: grid; gap: 1rem; }
+        .article-item {
+            padding: 1.25rem; background: rgba(16, 185, 129, 0.08); border: 2px solid transparent;
+            border-radius: 12px; cursor: pointer; transition: all 0.3s;
+        }
+        .article-item:hover {
+            background: rgba(16, 185, 129, 0.15); border-color: var(--accent-green); transform: translateX(8px);
+        }
+        .article-item.selected { background: rgba(16, 185, 129, 0.2); border-color: var(--accent-green); }
+        .article-filename { font-weight: 600; color: var(--accent-green); margin-bottom: 0.5rem; }
+        .article-preview { color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; }
+        .analyse-btn {
+            width: 100%; padding: 1.25rem; background: linear-gradient(135deg, var(--accent-green), #059669);
+            border: none; border-radius: 16px; color: white; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; margin-top: 1.5rem; transition: all 0.3s;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .analyse-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4); }
+        .analyse-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .results-section { display: none; }
+        .results-section.active { display: block; }
+        .result-card {
+            background: var(--card-bg); border-radius: 20px; padding: 2rem;
+            margin-bottom: 1.5rem; border: 1px solid var(--border-color); animation: slideIn 0.5s ease;
+        }
+        .result-card h3 {
+            font-size: 1.5rem; margin-bottom: 1.5rem; color: var(--text-light);
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .result-icon { font-size: 1.75rem; }
+        .category-result {
+            display: inline-block; padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), var(--bg-gradient-end));
+            border-radius: 16px; font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;
+        }
+        .subcategory-result {
+            display: inline-block; padding: 0.75rem 1.5rem;
+            background: rgba(30, 58, 95, 0.2); border: 2px solid var(--primary-dark);
+            border-radius: 12px; font-size: 1.1rem; font-weight: 600; color: #60a5fa;
+        }
+        .entity-list { display: grid; gap: 1rem; margin-top: 1rem; }
+        .entity-card {
+            background: rgba(30, 58, 95, 0.08); padding: 1.5rem; border-radius: 16px;
+            border-left: 4px solid var(--primary-dark); transition: all 0.3s;
+        }
+        .entity-card:hover { background: rgba(30, 58, 95, 0.15); transform: translateX(8px); }
+        .entity-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-light); }
+        .entity-title { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.5rem; }
+        .entity-type {
+            display: inline-block; padding: 0.4rem 1rem; border-radius: 16px;
+            font-size: 0.85rem; font-weight: 600; margin-top: 0.5rem;
+        }
+        .entity-type.politician {
+            background: rgba(220, 38, 38, 0.2); color: #f87171; border: 1px solid rgba(220, 38, 38, 0.4);
+        }
+        .entity-type.musician {
+            background: rgba(124, 58, 237, 0.2); color: #a78bfa; border: 1px solid rgba(124, 58, 237, 0.4);
+        }
+        .entity-type.tv-film-personality {
+            background: rgba(30, 58, 95, 0.2); color: #60a5fa; border: 1px solid rgba(30, 58, 95, 0.4);
+        }
+        .entity-type.media-personality {
+            background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4);
+        }
+        .stats-mini {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem; margin: 1.5rem 0;
+        }
+        .stat-mini {
+            background: rgba(30, 58, 95, 0.08); padding: 1.25rem; border-radius: 12px;
+            text-align: center; border: 1px solid var(--border-color);
+        }
+        .stat-mini-value {
+            font-size: 2rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 0.5rem;
+        }
+        .stat-mini-label { font-size: 0.85rem; color: var(--text-muted); }
+        .insight-box {
+            background: #d1fae5; border-left: 4px solid var(--accent-green);
+            border-radius: 12px; padding: 1.5rem; color: #064e3b; line-height: 1.8; font-size: 1.05rem;
+        }
+        .insight-icon { font-size: 1.5rem; margin-right: 0.75rem; vertical-align: middle; }
+        .no-results { text-align: center; padding: 3rem; color: var(--text-muted); font-size: 1.05rem; }
+        .footer {
+            text-align: center; margin-top: 4rem; padding: 2.5rem; color: var(--text-muted);
+            background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border-color); line-height: 1.8;
+        }
+        .footer-title { font-size: 1.2rem; font-weight: 600; color: var(--text-light); margin-bottom: 1rem; }
+        .footer-highlight { color: var(--primary-dark); font-weight: 600; }
+        .footer-credit {
+            margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+            body { padding: 1rem 0.5rem; }
+            .header h1 { font-size: 2rem; }
+            .category-section, .article-section, .result-card { padding: 1.5rem; }
+            .category-buttons { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📰 News Intelligence Analyser</h1>
+            <p>Experience AI-Powered Text Analysis in Real-Time</p>
+            <span class="badge">✨ BBC News Dataset (2004-2005) • 15 Articles • 5 Categories</span>
+            <br>
+            <a href="https://docs.google.com/spreadsheets/d/1TqSmeerz5C1CTXwhqzOB0Cx4k6IGORfzRSdSoyTpTmk/edit?usp=sharing" 
+               target="_blank" class="dataset-btn">
+                📊 View Full Dataset (2,225 Articles)
+            </a>
+        </div>
+
+        <div class="category-section">
+            <h2>📂 Select a Category</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.6;">
+                Choose from 5 BBC News categories. Each category contains 3 curated articles from the dataset.
+            </p>
+            <div class="category-buttons">
+                <button class="category-btn" onclick="loadCategory('business')">💼 Business</button>
+                <button class="category-btn" onclick="loadCategory('entertainment')">🎬 Entertainment</button>
+                <button class="category-btn" onclick="loadCategory('politics')">🏛️ Politics</button>
+                <button class="category-btn" onclick="loadCategory('sport')">⚽ Sport</button>
+                <button class="category-btn" onclick="loadCategory('tech')">💻 Technology</button>
+            </div>
+        </div>
+
+        <div class="article-section" id="article-section">
+            <h3>📄 Select an Article to Analyse</h3>
+            <div class="article-list" id="article-list"></div>
+            <button class="analyse-btn" id="analyse-btn" onclick="analyseArticle()" disabled>
+                🚀 Analyse Article
+            </button>
+        </div>
+
+        <div class="results-section" id="results">
+            <div class="result-card">
+                <h3><span class="result-icon">🏷️</span> Main Category</h3>
+                <div class="category-result" id="category-result">Business</div>
+            </div>
+
+            <div class="result-card">
+                <h3><span class="result-icon">📂</span> Subcategory Classification</h3>
+                <div class="subcategory-result" id="subcategory-result">Industry & Manufacturing</div>
+            </div>
+
+            <div class="result-card">
+                <h3><span class="result-icon">👥</span> Named Entities Detected</h3>
+                <div class="stats-mini">
+                    <div class="stat-mini">
+                        <div class="stat-mini-value" id="entity-count">0</div>
+                        <div class="stat-mini-label">Entities Found</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="stat-mini-value" id="word-count">0</div>
+                        <div class="stat-mini-label">Words Analysed</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="stat-mini-value" id="confidence">95%</div>
+                        <div class="stat-mini-label">Confidence</div>
+                    </div>
+                </div>
+                <div class="entity-list" id="entity-list"></div>
+            </div>
+
+            <div class="result-card">
+                <h3><span class="result-icon">💡</span> Article Summary & Key Insights</h3>
+                <div class="insight-box" id="insights-box">
+                    <span class="insight-icon">💡</span>
+                    <span id="insight-text"></span>
+                </div>
+            </div>
+
+            <button class="analyse-btn" onclick="resetAnalyser()" style="margin-top: 2rem; background: linear-gradient(135deg, #6366f1, #4f46e5);">
+                🔄 Analyse Another Article
+            </button>
+        </div>
+
+        <div class="footer">
+            <div class="footer-title">Powered by <span class="footer-highlight">Eden Mandate AI Tools</span></div>
+            <div style="margin-top: 1rem;">
+                Advanced NLP Analysis • Category Classification • Entity Recognition • Event Detection
+            </div>
+            <div class="footer-credit">
+                <strong>Dataset Attribution:</strong><br>
+                Built with the BBC News Dataset (2004-2005) containing 2,225 articles across 5 topical areas.<br>
+                Source: D. Greene and P. Cunningham. "Practical Solutions to the Problem of Diagonal Dominance in Kernel Document Clustering", Proc. ICML 2006.<br>
+                All rights, including copyright, in the content of the original articles are owned by the BBC.<br>
+                Dataset information: <a href="http://mlg.ucd.ie/datasets/bbc.html" style="color: var(--primary-dark);" target="_blank">mlg.ucd.ie/datasets/bbc.html</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const bbcDataset = 
+{
+  "business": [
+    {
+      "filename": "100.txt",
+      "text": "Ebbers denies WorldCom fraud\n\nFormer WorldCom chief Bernie Ebbers has denied claims that he knew accountants were doctoring the books at the firm.\n\nSpeaking in court, Mr Ebbers rejected allegations he pressured ex-chief financial officer Scott Sullivan to falsify company financial statements. Mr Sullivan \"made accounting decisions,\" he told the federal court, saying his finance chief had \"a keen command of the numbers\". Mr Ebbers has denied charges of fraud and conspiracy. During his second day of questioning in the New York trial Mr Ebbers played down his working relationship with Mr Sullivan and denied he frequently met him to discuss company business when questioned by the prosecution.\n\n\"In a lot of weeks, we would speak ... three or four times,\" Mr Ebbers said, adding that conversations about finances were rarely one-on-one and were usually discussed by a \"group of people\" instead.\n\nMr Ebbers relationship to Mr Sullivan is key to the case surrounding financial corruption that led to the collapse of the firm in 2002 following the discovery of an $11bn accounting fraud. The prosecution's star witness is Mr Sullivan, one of six WorldCom executives indicted in the case, He has pleaded guilty to fraud and appeared as a prosecution witness as part of an agreement with prosecutors. During his time on the witness stand Mr Sullivan repeatedly told jurors he met frequently with Mr Ebbers, told him about changes made to WorldCom's accounts to hide costs and had warned him such practises were improper. However during the case on Tuesday Mr Ebbers denied the allegations. \"I wasn't advised by Scott Sullivan of anything ever being wrong,\" he told the court. \"He's never told me he made an entry that wasn't right. If he had, we wouldn't be here today.\" Mr Ebbers could face a jail sentence of up to 85 years if convicted of all the charges he is facing. Shareholders lost about $180bn in WorldCom's collapse, 20,000 workers lost their jobs and the company went bankrupt. The company emerged from bankruptcy last year and is now known as MCI.",
+      "category": "business",
+      "subcategory": "Legal & Regulatory",
+      "insight": "Former WorldCom CEO Bernie Ebbers is on trial for an $11bn accounting fraud that led to the company's 2002 collapse. Ebbers denies knowledge of the fraud and claims his CFO Scott Sullivan made all accounting decisions independently. However, Sullivan—now a prosecution witness—testified that he frequently informed Ebbers about improper accounting changes. The case centres on their conflicting testimonies about their working relationship. If convicted, Ebbers faces up to 85 years in prison. The WorldCom collapse cost shareholders $180bn and resulted in 20,000 job losses before the company emerged from bankruptcy as MCI.",
+      "ner": [
+        {"name": "Bernie Ebbers", "title": "Former WorldCom Chief Executive Officer", "type": "Media Personality"},
+        {"name": "Scott Sullivan", "title": "Former WorldCom Chief Financial Officer", "type": "Media Personality"}
+      ]
+    },
+    {
+      "filename": "504.txt",
+      "text": "Aids and climate top Davos agenda\n\nClimate change and the fight against Aids are leading the list of concerns for the first day of the World Economic Forum in the Swiss resort of Davos.\n\nSome 2,000 business and political leaders from around the globe will listen to UK Prime Minister Tony Blair's opening speech on Wednesday. Mr Blair will focus on Africa's development plans and global warming. Earlier in the day came an update on efforts to have 3 million people on anti-Aids drugs by the end of 2005. The World Health Organisation (WHO) said 700,000 people in poor countries were on life-extending drugs - up from 440,000 six months earlier but amounting to only 12% of the 5.8 million who needed them. A $2bn \"funding gap\" still stood in the way of hitting the 2005 target, the WHO said.\n\nThe themes to be stressed by Mr Blair - whose attendance was announced at the last minute - are those he wants to dominate the UK's chairmanship of the G8 group of industrialised states. Other issues to be discussed at the five-day conference range from China's economic power to Iraq's future after this Sunday's elections. Aside from Mr Blair, more than 20 other world leaders are expected to attend including French President Jacques Chirac - due to speak by video link after bad weather delayed his helicopter - and South African President Thabo Mbeki, whose arrival has been delayed by Ivory Coast peace talks. The Ukraine's new president, Viktor Yushchenko, will also be there - as will newly elected Palestinian president Mahmoud Abbas. Dozens of chief executives from top European and American firms are also at the meeting being held at the Swiss mountain resort. They include actress and anti-poverty campaigner Angelina Jolie. Earlier this week she said spending extra cash on the world's poor would reap huge dividends. The World Economic Forum runs until Sunday.",
+      "category": "business",
+      "subcategory": "Government & Policy",
+      "insight": "The 2005 World Economic Forum in Davos focuses on climate change and AIDS, with UK Prime Minister Tony Blair delivering the opening address. Blair emphasizes Africa development and global warming as priorities for the UK's G8 chairmanship. The WHO reports that only 700,000 of 5.8 million people needing anti-AIDS drugs in poor countries are currently receiving them—just 12% of those in need—with a $2bn funding gap preventing the 2005 target of 3 million. The forum brings together 2,000 global leaders including Presidents Chirac, Mbeki, Yushchenko, and Abbas, alongside business executives and campaigner Angelina Jolie, to discuss pressing global issues from China's economic rise to Iraq's post-election future.",
+      "ner": [
+        {"name": "Tony Blair", "title": "UK Prime Minister", "type": "Politician"},
+        {"name": "Jacques Chirac", "title": "French President", "type": "Politician"},
+        {"name": "Thabo Mbeki", "title": "South African President", "type": "Politician"},
+        {"name": "Viktor Yushchenko", "title": "President of Ukraine", "type": "Politician"},
+        {"name": "Mahmoud Abbas", "title": "Palestinian President", "type": "Politician"},
+        {"name": "Angelina Jolie", "title": "Actress & Anti-Poverty Campaigner", "type": "TV/Film Personality"}
+      ]
+    },
+    {
+      "filename": "262.txt",
+      "text": "Asian quake hits European shares\n\nShares in Europe's leading reinsurers and travel firms have fallen as the scale of the damage wrought by tsunamis across south Asia has become apparent.\n\nMore than 23,000 people have been killed following a massive underwater earthquake and many of the worst hit areas are popular tourist destinations. Reinsurance firms such as Swiss Re and Munich Re lost value as investors worried about rebuilding costs. But the disaster has little impact on stock markets in the US and Asia.\n\nCurrencies including the Thai baht and Indonesian rupiah weakened as analysts warned that economic growth may slow. \"It came at the worst possible time,\" said Hans Goetti, a Singapore-based fund manager. \"The impact on the tourist industry is pretty devastating, especially in Thailand.\" Travel-related shares dropped in Europe, with companies such as Germany's TUI and Lufthansa and France's Club Mediterranne sliding. Insurers and reinsurance firms were also under pressure in Europe.\n\nShares in Munich Re and Swiss Re - the world's two biggest reinsurers - both fell 1.7% as the market speculated about the cost of rebuilding in Asia. Zurich Financial, Allianz and Axa also suffered a decline in value.\n\nHowever, their losses were much smaller, reflecting the market's view that reinsurers were likely to pick up the bulk of the costs. Worries about the size of insurance liabilities dragged European shares down, although the impact was exacerbated by light post-Christmas trading. Germany's benchmark Dax index closed the day 16.29 points lower at 3.817.69 while France's Cac index of leading shares fell 5.07 points to 3.817.69. Investors pointed out, however, that declines probably would be industry specific, with the travel and insurance firms hit hardest. \"It's still too early for concrete damage figures,\" Swiss Re's spokesman Floiran Woest told Associated Press. \"That also has to do with the fact that the damage is very widely spread geographically.\"\n\nThe unfolding scale of the disaster in south Asia had little immediate impact on US shares, however. The Dow Jones index had risen 20.54 points, or 0.2%, to 10,847.66 by late morning as analsyts were cheered by more encouraging reports from retailers about post-Christmas sales. In Asian markets, adjustments were made quickly to account for lower earnings and the cost of repairs. Thai Airways shed almost 4%. The country relies on tourism for about 6% of its total economy. Singapore Airlines dropped 2.6%. About 5% of Singapore's annual gross domestic product (GDP) comes from tourism. Malaysia's budget airline, AirAsia fell 2.9%. Resort operator Tanco Holdings slumped 5%.\n\nTravel companies also took a hit, with Japan's Kinki Nippon sliding 1.5% and HIS dropping 3.3%. However, the overall impact on Asia's largest stock market, Japan's Nikkei, was slight. Shares fell just 0.03%. Concerns about the strength of economic growth going forward weighed on the currency markets. The Indonesian rupiah lost as much as 0.6% against the US dollar, before bouncing back slightly to trade at 9,300. The Thai baht lost 0.3% against the US currency, trading at 39.10. In India, where more than 2,000 people are thought to have died, the rupee shed 0.1% against the dollar Analysts said that it was difficult to predict the total cost of the disaster and warned that share prices and currencies would come under increasing pressure as the bills mounted.",
+      "category": "business",
+      "subcategory": "Markets & Finance",
+      "insight": "The 2004 Asian tsunami disaster triggers significant stock market reactions in Europe as the death toll exceeds 23,000 and rebuilding costs mount. European reinsurance giants Swiss Re and Munich Re see shares fall 1.7% amid investor concerns about massive insurance claims, while travel companies like TUI, Lufthansa, and Club Méditerranée also decline due to tourism industry devastation. Asian markets react swiftly with Thai Airways dropping 4% and Singapore Airlines falling 2.6%, reflecting concerns about economic impact in tourism-dependent economies. Currencies weaken across affected regions, with the Indonesian rupiah and Thai baht declining against the dollar. However, US markets remain largely unaffected, with the Dow Jones rising as retailers report strong post-Christmas sales.",
+      "ner": [
+        {"name": "Hans Goetti", "title": "Singapore-Based Fund Manager", "type": "Media Personality"},
+        {"name": "Floiran Woest", "title": "Swiss Re Spokesman", "type": "Media Personality"}
+      ]
+    }
+  ],
+  "entertainment": [
+    {
+      "filename": "302.txt",
+      "text": "Actress Roberts takes spider role\n\nActress Julia Roberts will play the part of a spider in a new film version of children's classic Charlotte's Web.\n\nShe will voice Charlotte, who teams up with a girl to save their friend Wilbur the pig, in the story by EB White. The film - a mix of live action and animation - will be Roberts' first project since the birth of her twins, Hazel and Phinnaeus, two months ago. Oprah Winfrey will voice a goose, John Cleese will voice a sheep and Steve Buscemi a rat in the 2006 film.\n\nTen-year-old Dakota Fanning will play Fern, the girl at the centre of the story, in the film to be directed by 13 Going on 30 film-maker Gary Winick. Filming is due to begin in Melbourne, Australia, later this month. Charlotte's Web has sold 45 million copies since it was published in 1952. An animated version was made in 1973 but this will be the first live action film. The actor who will voice Wilbur the pig has yet to be revealed.",
+      "category": "entertainment",
+      "subcategory": "Film & Cinema",
+      "insight": "Julia Roberts returns to acting after the recent birth of her twins to voice Charlotte the spider in a new live-action/animated adaptation of EB White's beloved children's classic Charlotte's Web. The star-studded cast includes Oprah Winfrey voicing a goose, John Cleese as a sheep, and Steve Buscemi as a rat, with 10-year-old Dakota Fanning playing the live-action role of Fern. Directed by Gary Winick (13 Going on 30), filming begins in Melbourne this month for a 2006 release. This marks the first live-action film adaptation of the story, which has sold 45 million copies since its 1952 publication, though an animated version was released in 1973.",
+      "ner": [
+        {"name": "Julia Roberts", "title": "Actress", "type": "TV/Film Personality"},
+        {"name": "Oprah Winfrey", "title": "Talk Show Host & Voice Actor", "type": "Media Personality"},
+        {"name": "John Cleese", "title": "Actor", "type": "TV/Film Personality"},
+        {"name": "Steve Buscemi", "title": "Actor", "type": "TV/Film Personality"},
+        {"name": "Dakota Fanning", "title": "Actress", "type": "TV/Film Personality"},
+        {"name": "Gary Winick", "title": "Film Director", "type": "TV/Film Personality"}
+      ]
+    },
+    {
+      "filename": "316.txt",
+      "text": "Johnny Depp: The acting outlaw\n\nJohnny Depp, whose latest role was Peter Pan creator JM Barrie in Finding Neverland, is celebrated as one of Hollywood's most maverick talents. Depp has become an unlikely major star, given his preference for taking dark and idiosyncratic roles instead of surefire box office hits. He has had a long-running working relationship with the equally unconventional director Tim Burton. Depp was born in Kentucky in 1963 and at first wanted to be a rock star, playing in a number of bands and supporting acts such as Iggy Pop and The B-52s in Florida. On a visit to Los Angeles, his former wife introduced him to actor Nicolas Cage.\n\nIn 1984 he started his film career playing a doomed teenager in horror film Nightmare On Elm Street. Two years later he played a soldier in Oliver Stone's Vietnam epic Platoon. But it was TV that first made Depp a star. He played undercover cop Tommy Hanson in the US series 21 Jump Street for three years from 1987.\n\nIn 1990 he began his partnership with Burton in the dark fairy tale Edward Scissorhands, about a young man with blades for hands. He won plaudits in 1993 for the downbeat film What's Eating Gilbert Grape, where he played a sensitive youth looking after an overweight mother and a retarded younger brother, played by Leonardo DiCaprio. Another role under Burton, Ed Wood, starred Depp as the crazed cult film-maker Wood, in 1994. He played a much more serious, sensitive role in his next major film, Donnie Brasco, where he portrayed an undercover cop infiltrating a mafia ring. In 1997 he directed his only film to date - The Brave, the story of an Indian man offered money to appear in a snuff film.\n\nTwo years later he played Hunter S Thompson in Terry Gilliam's ambitious but poorly-received big screen adaptation of Fear and Loathing in Las Vegas. He worked again with Tim Burton in the 1999 horror film Sleepy Hollow, and appeared opposite Dame Judi Dench and Juliette Binoche in Chocolat. His performance in Pirates of the Caribbean, which earned him Golden Globe and Bafta nominations, had many critics thinking he based it upon the mannerisms of his friend, Rolling Stones guitarist Keith Richards. His latest role in Finding Neverland explored JM Barrie's relationship with Sylvia (Kate Winslet) and her children. Depp's charismatic performance drew an audience of adults and children alike into Barrie's vivid imagination, and he was called the \"fifth child of the group\" by the film's director Marc Forster.\n\nHe has two children of his own with French singer Vanessa Paradis, having previously been in a long-term relationship with British model Kate Moss. The theme of children's literature in Depp's career - and his long association with Tim Burton - are set to continue in his next role, playing Willy Wonka in a remake of Roald Dahl's classic Charlie and the Chocolate Factory. British TV comedy fans might also remember Depp's guest role in the final episode of BBC sketch programme The Fast Show, cited as his favourite show. It was another surprise move in Depp's varied and intriguing career.",
+      "category": "entertainment",
+      "subcategory": "Celebrities",
+      "insight": "This profile celebrates Johnny Depp's unconventional career path from aspiring rock musician to Hollywood maverick, tracing his journey from supporting Iggy Pop in Florida to becoming one of cinema's most distinctive actors. Born in Kentucky in 1963, Depp gained fame through TV's 21 Jump Street before forging a legendary partnership with director Tim Burton in films like Edward Scissorhands, Ed Wood, and Sleepy Hollow. His career has been marked by daring role choices—from What's Eating Gilbert Grape alongside Leonardo DiCaprio to his acclaimed portrayal of JM Barrie in Finding Neverland opposite Kate Winslet. The article highlights his Golden Globe-nominated performance in Pirates of the Caribbean, influenced by friend Keith Richards, and his personal life with French singer Vanessa Paradis. His next role will see him playing Willy Wonka in Charlie and the Chocolate Factory, continuing his association with children's literature adaptations.",
+      "ner": [
+        {"name": "Johnny Depp", "title": "Actor", "type": "TV/Film Personality"},
+        {"name": "Tim Burton", "title": "Film Director", "type": "TV/Film Personality"},
+        {"name": "Iggy Pop", "title": "Musician", "type": "Musician"},
+        {"name": "Nicolas Cage", "title": "Actor", "type": "TV/Film Personality"},
+        {"name": "Oliver Stone", "title": "Film Director", "type": "TV/Film Personality"},
+        {"name": "Leonardo DiCaprio", "title": "Actor", "type": "TV/Film Personality"},
+        {"name": "Terry Gilliam", "title": "Film Director", "type": "TV/Film Personality"},
+        {"name": "Judi Dench", "title": "Actress", "type": "TV/Film Personality"},
+        {"name": "Juliette Binoche", "title": "Actress", "type": "TV/Film Personality"},
+        {"name": "Keith Richards", "title": "Rolling Stones Guitarist", "type": "Musician"},
+        {"name": "Kate Winslet", "title": "Actress", "type": "TV/Film Personality"},
+        {"name": "Marc Forster", "title": "Film Director", "type": "TV/Film Personality"},
+        {"name": "Vanessa Paradis", "title": "French Singer", "type": "Musician"},
+        {"name": "Kate Moss", "title": "British Model", "type": "Media Personality"}
+      ]
+    },
+    {
+      "filename": "100.txt",
+      "text": "Fockers retain film chart crown\n\nComedy Meet The Fockers has held on to the number one spot at the North American box office for a second week.\n\nIt took $42.8m (£23.7m) at the weekend, making its overall takings more than $163m (£90m) in 12 days, according to studio estimates. It took $19.1m (£9.9m) on Christmas Day alone, the highest takings on that day in box office history. The sequel to the Ben Stiller comedy Meet The Parents stars Robert De Niro, Dustin Hoffman and Barbra Streisand.\n\nThe success of Meet the Fockers could help produce record box office revenue for 2004, said Paul Dergarabedian, president of the industry's tracker Exhibitor Relations. \"We've had a much stronger than anticipated final week of the year that helped the industry end on a high note,\" said Mr Dergarabedian.\n\nMeet the Fockers also broke the box office records for the most money taken on New Year's Eve, when it made $12.2m (£6.2m), and New Year's Day, when it took $18m (£9.4m). The previous New Year's Eve record was set in 2000 by Cast Away with $8.5m (£4.5m). The Lord of the Rings: The Return of the King had held the New Year's Day title with $12.8m (£6.7m). However, Christmas takings were down 26.5% on 2003's figures - which was blamed on Christmas falling over a weekend this year. This weekend's top 12 films took an estimated $125.4m (£65.8m), a 4.3% increase on the same weekend last year. But there were no major releases last week to provide competition to Meet the Fockers or Lemony Snicket's A Series of Unfortunate Events, starring Jim Carrey. Comedian Fat Albert, starring Bill Cosby, and Racing Stripes, about a zebra who wants to be a racehorse, both opened on Christmas Day but failed to make a big impression. Fat Albert took $12.7m (£6.5m) while Racing Stripes made $13.2m (£6.9m). Historical epic Alexander, starring Irish actor Colin Farrell and directed by Oliver Stone, continued its disappointing run, slipping from sixth to 10th place.",
+      "category": "entertainment",
+      "subcategory": "Film & Cinema",
+      "insight": "Meet The Fockers dominates the North American box office for a second consecutive week, earning $42.8m and bringing its 12-day total to over $163m. The Ben Stiller sequel starring Robert De Niro, Dustin Hoffman, and Barbra Streisand sets multiple records: highest-ever Christmas Day takings ($19.1m), New Year's Eve ($12.2m), and New Year's Day ($18m)—breaking previous records held by Cast Away and The Lord of the Rings. Industry tracker Paul Dergarabedian credits the film with helping 2004 achieve record box office revenue despite overall Christmas weekend takings being down 26.5% from 2003. New releases Fat Albert (Bill Cosby) and Racing Stripes underperform with $12-13m each, while Oliver Stone's Alexander continues its disappointing run, falling from sixth to tenth place.",
+      "ner": [
+        {"name": "Ben Stiller", "title": "Actor & Comedian", "type": "TV/Film Personality"},
+        {"name": "Robert De Niro", "title": "Actor", "type": "TV/Film Personality"},
+        {"name": "Dustin Hoffman", "title": "Actor", "type": "TV/Film Personality"},
+        {"name": "Barbra Streisand", "title": "Actress & Singer", "type": "TV/Film Personality"},
+        {"name": "Paul Dergarabedian", "title": "President of Exhibitor Relations", "type": "Media Personality"},
+        {"name": "Bill Cosby", "title": "Comedian & Actor", "type": "TV/Film Personality"},
+        {"name": "Colin Farrell", "title": "Irish Actor", "type": "TV/Film Personality"}
+      ]
+    }
+  ],
+  "politics": [
+    {
+      "filename": "262.txt",
+      "text": "Howard taunts Blair over splits\n\nTony Blair's feud with Gordon Brown is damaging the way the UK is governed, Tory leader Michael Howard has claimed in a heated prime minister's questions.\n\nMr Howard asked: \"How can they fight crime when they are fighting each other?\" That question was later unveiled as the headline for new Tory campaign posters. But Mr Blair dismissed the talk of splits and said people's priorities at the next elections would be on the economic successes achieved by Labour. \"He can stick up whatever he likes on billboards about something in a book but what the public will concentrate on are the low mortgages, low inflation, low unemployment that we delivered and that he failed to,\" he said. The chancellor is currently on a high-profile tour of Africa to highlight new anti-poverty plans. But before doing so, he insisted he still trusted Mr Blair, despite claims to the contrary in a new book.\n\nBrown's Britain, by Robert Peston, says there is mutual animosity between the two men. It claims Mr Blair said in November 2003 he would stand down as prime minister before the next election. But he went back on his pledge after support from Cabinet allies and suspicion that Mr Brown was manoeuvring against him, it says.\n\nMr Peston's book claimed that Mr Brown told Mr Blair: \"There is nothing you could ever say to me now that I could ever believe.\" Mr Blair directly denied that quote on Wednesday. He again insisted there could be no deals about the premiership but twice declined to say he would serve a full third term if Labour won again. Conservative leader Michael Howard has seized on reports of Mr Blair's alleged breach of promise as evidence that the prime minister cannot be trusted. Labour has brushed aside Mr Howard's attacks, saying the Conservative leader was in no position to lecture on broken promises given his record in government. Lib Dem leader Charles Kennedy said during his own clash with the prime minister that the government had problems being \"believed and trusted\". Mr Blair hit back saying Mr Kennedy should be \"concentrating on his party\" after recent opinion polls suggested it was not making progress.\n\nFormer Labour minister Alan Milburn leapt to Mr Blair's defence and said those who said he was a liar should stand up and say so. But former shadow health secretary Liam Fox called Mr Milburn \"another one of the prime minister's poodles\". Backing Mr Howard, he said: \"The prime minister told the chancellor he would stand down and then he broke his promise. It is yet another breach of trust.\"",
+      "category": "politics",
+      "subcategory": "Leadership Changes",
+      "insight": "A heated parliamentary exchange sees Conservative leader Michael Howard exploit the rift between Tony Blair and Gordon Brown, using it as the centrepiece of new Tory campaign posters asking 'How can they fight crime when they are fighting each other?' The controversy centres on Robert Peston's book 'Brown's Britain,' which claims Blair promised to stand down before the next election in November 2003 but reneged after gaining Cabinet support, leading Brown to declare he could no longer believe anything Blair said. Blair denies this quote and refuses to commit to serving a full third term, while defending Labour's economic record of low mortgages, inflation, and unemployment. Liberal Democrat leader Charles Kennedy questions the government's trustworthiness, while former minister Alan Milburn defends Blair against accusations of lying, prompting Tory Liam Fox to label him 'one of the prime minister's poodles.'",
+      "ner": [
+        {"name": "Tony Blair", "title": "UK Prime Minister", "type": "Politician"},
+        {"name": "Gordon Brown", "title": "Chancellor", "type": "Politician"},
+        {"name": "Michael Howard", "title": "Conservative Party Leader", "type": "Politician"},
+        {"name": "Robert Peston", "title": "Author & Journalist", "type": "Media Personality"},
+        {"name": "Charles Kennedy", "title": "Liberal Democrats Leader", "type": "Politician"},
+        {"name": "Alan Milburn", "title": "Former Labour Minister", "type": "Politician"},
+        {"name": "Liam Fox", "title": "Former Shadow Health Secretary", "type": "Politician"}
+      ]
+    },
+    {
+      "filename": "100.txt",
+      "text": "Guantanamo man 'suing government'\n\nA British terror suspect held in Guantanamo Bay for 33 months plans to sue the government, it is reported.\n\nMartin Mubanga claimed in the Observer that an MI6 officer played a key role in consigning him to the US camp in Cuba, following his arrest in Zambia. Mr Mubanga, 32, from Wembley, London, said he was brutally interrogated and daubed with urine at the camp. The home secretary said he would not be launching an investigation and that the media reports were not \"well informed\". Mr Mubanga, who has dual British and Zambian nationality, was one of four Britons who were released from the US camp in January.\n\nHe said he was sent there after being interrogated by a British man who said he was from MI6, shortly after his arrest in Zambia in March 2002. Mr Mubanga said he had been in Afghanistan and Pakistan to study Islam. But he said he was unable to return to the UK because he had lost his British passport, and was travelling on his Zambian passport instead. Mr Mubanga said the \"MI6 agent\" told him the passport had been found in a cave in Afghanistan along with documents listing Jewish groups in New York and suggested he had been on an al-Qaeda reconnaissance mission. Mr Mubanga said the man, and an American female defence official, tried to recruit him as an agent, but he refused and within three weeks was told he would be sent to Guantanamo Bay.\n\nHis lawyer Louise Christian said: \"'We are hoping to issue proceedings for the misfeasance of officers of the Crown acting in bad faith. \"Under the law that should be actionable.\" The allegations of the involvement of MI6 in the questioning at the camp were revealed in a report from five British lawyers, led by human rights specialist Lord Steyn, in July. Lib Dem foreign affairs spokesman Menzies Campbell said the claims were \"sufficiently disturbing to call for investigation\". But the Home Office said any reports of Home Secretary Charles Clarke launching a formal inquiry were \"unfounded\". And Fair Trials Abroad director Stephen Jakobi said: \"I find it impossible to believe, when there are thousands of illegal immigrants who are trying to get into Britain, that the government should be complicit in dumping someone who has got a right of British citizenship in Guantanamo Bay just to get him out of this country.\" On Friday, the White House confirmed it wanted four more British detainees to remain in Guantanamo Bay, despite a request from the UK government for their release.",
+      "category": "politics",
+      "subcategory": "Political Scandals",
+      "insight": "Martin Mubanga, a 32-year-old British-Zambian citizen from Wembley, plans to sue the UK government after spending 33 months in Guantanamo Bay, alleging that an MI6 officer was instrumental in his detention following his March 2002 arrest in Zambia. Mubanga claims he was in Afghanistan and Pakistan studying Islam when he lost his British passport, and that during interrogation, an alleged MI6 agent showed him documents suggesting he was on an al-Qaeda reconnaissance mission before attempting to recruit him as an agent. After refusing, he was sent to Guantanamo where he says he was brutally interrogated and abused. His lawyer Louise Christian plans to file proceedings for misfeasance by Crown officers acting in bad faith. Liberal Democrat Menzies Campbell calls the allegations 'sufficiently disturbing' to warrant investigation, though Home Secretary Charles Clarke dismisses media reports as 'not well informed' and refuses to launch an inquiry.",
+      "ner": [
+        {"name": "Martin Mubanga", "title": "British Terror Suspect", "type": "Media Personality"},
+        {"name": "Louise Christian", "title": "Lawyer", "type": "Media Personality"},
+        {"name": "Menzies Campbell", "title": "Liberal Democrats Foreign Affairs Spokesman", "type": "Politician"},
+        {"name": "Charles Clarke", "title": "Home Secretary", "type": "Politician"},
+        {"name": "Stephen Jakobi", "title": "Fair Trials Abroad Director", "type": "Media Personality"}
+      ]
+    },
+    {
+      "filename": "316.txt",
+      "text": "Blair moves to woo Jewish voters\n\nTony Blair has pledged to \"never, ever, ever\" attack Tory leader Michael Howard over his Jewish beliefs.\n\nThe prime minister told the Jewish Chronicle: \"If you look at what I do, I attack Michael Howard politically.\" Mr Blair also distanced himself from recent Labour campaign posters featuring Mr Howard, which critics claimed were \"anti-Semitic\". These were \"not intended to cause any offence to anyone on the Jewish community,\" Mr Blair insisted.\n\nOne poster depicted Mr Howard and his shadow chancellor Oliver Letwin, who is also Jewish, as flying pigs. Another pictured the Tory leader swinging a pocket watch on a chain, which critics said echoed the Jewish money lender Shylock in Shakespeare's Merchant of Venice.\n\nOthers compared the image to the character Fagin in Charles Dickens' Oliver Twist. Labour has since taken the designs of its website, saying members had preferred other designs. During his interview with the Jewish Chronicle, Mr Blair said: \"I've been a very strong supporter of the Jewish community and Israel, and will always be so.\" Pressed on whether he would draw attention to Mr Howard's Jewish beliefs in an attempt to attract Muslim support, he replied: \"The idea that I would allow anybody to make such a charge is outrageous. It's untrue. \"If you look what I do, I attack Michael Howard politically. I would never, ever, ever attack him on that basis.\" Mr Blair also defended his party's attitude towards the Jewish community, pointing to his decision to ban Hammas and Hezbollah as terrorist organisations.\n\nHe also pointed to his government's role in tackling Holocaust denial. And he described Tory leader Michael Howard, a barrister, as someone who \"will say anything to get himself elected\". Mr Blair has had a longstanding friendship with Jewish leaders and the Jewish community. Jewish groups have played a key role in Labour's fundraising efforts, with the party receiving several million pounds from Jewish businessmen in recent years. But relations have been strained over the fallout from the Iraq war and British foreign policy in the Middle East. The Lib Dems have denied an attack on Ken Livingstone - the independent candidate for London mayor - was anti-Semitic. Lib Dem leader Simon Hughes accused the mayor of being \"an anti-Semitic apologist\" after he compared a Jewish Evening Standard journalist to a \"concentration camp guard\". But Mr Livingstone has since apologised for the comments. The Board of Deputies of British Jews, which had reported the mayor to the Standards Board for England over the incident, accepted Mr Livingstone's apology. Its president Henry Grunwald said: \"Oliver Finegold was deeply hurt by the mayor's remarks and we are pleased they have now been withdrawn.\"",
+      "category": "politics",
+      "subcategory": "Political Scandals",
+      "insight": "Tony Blair attempts to repair Labour's relationship with Jewish voters following accusations of anti-Semitic campaign imagery, pledging to 'never, ever, ever' attack Conservative leader Michael Howard over his Jewish faith. The controversy centres on Labour posters depicting Howard and Jewish shadow chancellor Oliver Letwin as 'flying pigs' and Howard swinging a pocket watch—imagery critics compared to anti-Semitic stereotypes from Shakespeare's Shylock and Dickens' Fagin. Blair defends his pro-Israel stance, citing his government's banning of Hamas and Hezbollah and work against Holocaust denial, while calling Howard someone who 'will say anything to get elected.' The tensions occur as Labour-Jewish relations are strained over Iraq War policy. In a related incident, London mayor Ken Livingstone faces anti-Semitism accusations after comparing Jewish Evening Standard journalist Oliver Finegold to a 'concentration camp guard,' though he later apologises and the Board of Deputies accepts.",
+      "ner": [
+        {"name": "Tony Blair", "title": "UK Prime Minister", "type": "Politician"},
+        {"name": "Michael Howard", "title": "Conservative Party Leader", "type": "Politician"},
+        {"name": "Oliver Letwin", "title": "Shadow Chancellor", "type": "Politician"},
+        {"name": "Ken Livingstone", "title": "London Mayor Candidate", "type": "Politician"},
+        {"name": "Oliver Finegold", "title": "Jewish Evening Standard Journalist", "type": "Media Personality"}
+      ]
+    }
+  ],
+  "sport": [
+    {
+      "filename": "289.txt",
+      "text": "Fuming Robinson blasts officials\n\nEngland coach Andy Robinson insisted he was \"livid\" after his side were denied two tries in Sunday's 19-13 Six Nations loss to Ireland in Dublin.\n\nMark Cueto's first-half effort was ruled out for offside before the referee spurned TV replays when England crashed over in the dying minutes. \"[I'm] absolutely spitting. I'm livid. There's two tries we've been cost,\" Robinson told BBC Sport. \"We've got to go back to technology. I don't know why we didn't.\" South African referee Jonathan Kaplan ruled that Cueto was ahead of Charlie Hodgson when the fly-half hoisted his cross-field kick for the Sale wing to gather.\n\nKaplan then declined the chance to consult the fourth official when Josh Lewsey took the ball over the Irish line under a pile of bodies for what could have been the game-winning try. \"I think Mark Cueto scored a perfectly legal try and I think he should have gone to the video referee on Josh Lewsey,\" said Robinson. \"It is how we use the technology. It is there, and it should be used. \"I am still trying to work out the Cueto try. I have looked at both, and they both looked tries. \"We are very disappointed, and this will hurt, there is no doubt about that. \"We are upset now, but the referee is in charge and he has called it his way and we have got to be able to cope with that.\n\n\"We did everything we could have done to win the game. I am very proud of my players and, with a couple of decisions, this could have been a very famous victory. \"It is all ifs and buts, and we have been guilty of that in the past, but the bottom line is we are a better side. \"The video referee has been used all through the Six Nations, it was used in our game against Wales last week, and I don't know why it wasn't today,\" added Robinson.\n\nEngland captain Jason Robinson echoed the coach's sentiments. \"We're obviously gutted but we've got to front up,\" said Robinson. \"We can't hide behind excuses. \"We played some fantastic rugby at times but we made some crucial errors. The bounce of the ball cost us big-time today.\" England went ahead through Matt Stevens' try but then slipped 13-5 behind before Cueto was denied. Ollie Barkley cut the gap to a point with a penalty and drop-goal before Lewsey claimed to have scored in the dying seconds. Jason Robinson added: \"We had our opportunities and we didn't take them. We got in good positions and gave away penalties. \"This team has a great deal of character and we will bounce back from this. \"We have to learn from our mistakes. We will take the positives out of it and try to move on.\" Prop Matt Stevens also felt England did enough to win. \"We are very disappointed but we can't let our heads drop,\" he said. \"We created a hell of a lot and were unlucky. We have just got to make sure we are more clinical and ruthless in the games to come. \"Ireland defended magnificently today, we have to give them credit. But we feel we have improved hugely from the autumn and we will get better still.\" England face Scotland at Twickenham in their next Six Nations fixture on 12 March. Former coach Sir Clive Woodward, now working for the British and Irish Lions, said England had been \"desperately unlucky\". \"England played some great rugby, they fully deserved to win but they made too many mistakes in key areas,\" he said. \"They had countless opportunities and Ireland did really well to hold on. England were very, very unlucky. \"I thought Mark Cueto's try was perfectly good and Josh Lewsey's would have stood if it had been referred. England and Andy Robinson have my sympathy.\" The Rugby Football Union chief executive Francis Baron also weighed into the row. \"It's very frustrating - we appear to have been very harshly treated with a couple of the key decisions,\" he said. \"Why the video referee was not used, I don't know. There were clear opportunities to use it. \"But we still made too many mistakes in certain key areas. We had the chances but didn't take them and that's something we have to work on as a team.\" Ireland coach Eddie O'Sullivan admitted his side had \"ridden their luck\" but praised his team's defensive display. \"England had the better of us for long periods and we had to defend magnificently,\" he said. \"We scrambled very hard and showed great character. We were perhaps a little fortunate with some of the decisions but in the end we ground out a win and that's what matters. \"Mark Cueto's disallowed try looked very close, very marginal. But that's what referees are for. They make those tough calls and we have to respect that. \"Josh Lewsey's effort at the end - I'm not sure whether he got it down or not. There was a huge pile of bodies there. But the referee made his call and we'll take the win.\"",
+      "category": "sport",
+      "subcategory": "Rugby",
+      "insight": "England coach Andy Robinson expresses fury after his team's controversial 19-13 Six Nations defeat to Ireland, with two potentially match-winning tries denied by South African referee Jonathan Kaplan. Mark Cueto's first-half try was disallowed for offside, while Josh Lewsey's last-minute effort wasn't referred to the video referee despite being buried under bodies on the try line. Robinson questions why video technology, used throughout the tournament including England's previous match against Wales, wasn't consulted for these crucial decisions. England led through Matt Stevens before falling 13-5 behind, with Ollie Barkley narrowing the gap before Lewsey's controversial finale. Former coach Sir Clive Woodward calls England 'desperately unlucky' and believes both tries should have stood, while Ireland coach Eddie O'Sullivan admits his side 'rode their luck' but praises their defensive resilience.",
+      "ner": [
+        {"name": "Andy Robinson", "title": "England Rugby Coach", "type": "Media Personality"},
+        {"name": "Mark Cueto", "title": "England Rugby Player", "type": "Media Personality"},
+        {"name": "Jonathan Kaplan", "title": "South African Rugby Referee", "type": "Media Personality"},
+        {"name": "Charlie Hodgson", "title": "England Rugby Player", "type": "Media Personality"},
+        {"name": "Josh Lewsey", "title": "England Rugby Player", "type": "Media Personality"},
+        {"name": "Matt Stevens", "title": "England Rugby Player", "type": "Media Personality"},
+        {"name": "Clive Woodward", "title": "Former England Rugby Coach", "type": "Media Personality"}
+      ]
+    },
+    {
+      "filename": "504.txt",
+      "text": "Veteran Martinez wins Thai title\n\nConchita Martinez won her first title in almost five years with victory over Anna-Lena Groenefeld at the Volvo Women's Open in Pattaya, Thailand.\n\nThe 32-year-old Spaniard came through 6-3 3-6 6-3 for her first title since Berlin in 2000. \"It feels really good,\" said Martinez, who is playing her last season on the Tour. \"To come through like that in an important match feels good. \"It's been nearly five years and I didn't think I could do it.\" Groenefeld was the more powerful player but could not match her opponent's relentless accuracy. \"It was my first final, a new experience,\" said the German. \"I think she played a good match, a tough match, but I tried to stay in there. I think the whole week was good for me.\"",
+      "category": "sport",
+      "subcategory": "Tennis",
+      "insight": "32-year-old Spanish tennis veteran Conchita Martinez claims her first title in nearly five years, defeating Germany's Anna-Lena Groenefeld 6-3, 3-6, 6-3 at the Volvo Women's Open in Pattaya, Thailand. Playing in her final season on tour, Martinez overcomes Groenefeld's superior power with relentless accuracy and tactical precision, securing her first championship since Berlin in 2000. The emotional victory comes as a surprise to Martinez herself, who admits she 'didn't think I could do it' after such a long drought. For Groenefeld, the match represents her first professional final, and despite the loss, she views the entire week as a positive learning experience that will benefit her developing career.",
+      "ner": [
+        {"name": "Conchita Martinez", "title": "Professional Tennis Player", "type": "Media Personality"},
+        {"name": "Anna-Lena Groenefeld", "title": "Professional Tennis Player", "type": "Media Personality"}
+      ]
+    },
+    {
+      "filename": "060.txt",
+      "text": "McIlroy wins 800m indoor title\n\nJames McIlroy motored to the AAA's Indoor 800m title in Sheffied on Sunday in a time of one minute, 47.97 seconds.\n\nThe Larne athlete dominated the race from start to finish although he had to hold off a late challenge from Welshman Jimmy Watkins in the final 100 metres. \"I had to go out and go through all the gears before the Europeans and I won't run again until then,\" said McIlroy. ''I though if I got lucky I'd get close to the British record but I blew up in the end.'' McIlroy has been in superb form at the start of the season and will now start his build-up for the European Indoors at Madrid on 4-6 March. Meanwhile, Paul Brizzel and Anna Boyle reached the semi-finals of the 60m hurdles with Boyle setting a season's best of 7.48. In the women's 60m final, Ailis McSweeney broke Michelle Carroll's long-standing Irish record by clocking 7.37 which left her in third place. David Gillick showed that he is a genuine medal contender in the European Indoor Championships by claiming an impressive 400m victory. Gillick was more than half-a-second clear when taking gold in 46.45 - .02 outside his personal best set in Saturday's semi-finals.\n\nThe Irishman is now the fastest European this season. Derval O'Rourke broke her own Irish 60m hurdles record by clocking 8.06 which left her third behind new British record holder Sarah Claxton (7.96). James Nolan (3:46.04) took second in the men's 1500m behind Neil Speaight (3:45.86) but the Offaly man was outside Michael East's qualification mark. Colin Costello, Deirdre Ryan and Aoife Byrne all won through to Sunday's 60m final. However, Irish relay teams will not be competing at the Europeans after failing to qualify. Gary Murray and Stephen Cairns impressed in winning their 400m semi-finals and both will be in Sunday's final. Jill Shannon (5:08.37) and Paul Rowan (2:23.09) picked up bronze medals in the 3,000m and 1,000m finals respectively.",
+      "category": "sport",
+      "subcategory": "Athletics",
+      "insight": "Irish athlete James McIlroy dominates the AAA's Indoor 800m championship in Sheffield with a commanding wire-to-wire victory in 1:47.97, holding off Welsh challenger Jimmy Watkins in the final 100 metres as he prepares for the European Indoor Championships in Madrid. The event showcases strong Irish performances across multiple disciplines: David Gillick claims a decisive 400m victory in 46.45 (just 0.02 outside his personal best), establishing himself as Europe's fastest this season and a medal contender for the Europeans. Ailis McSweeney breaks Michelle Carroll's long-standing Irish 60m record with 7.37 to finish third, while Derval O'Rourke sets a new Irish 60m hurdles record of 8.06, finishing third behind Britain's Sarah Claxton (7.96). Other notable results include James Nolan's second-place 1500m finish, bronze medals for Jill Shannon (3000m) and Paul Rowan (1000m), and successful semi-final performances from Paul Brizzel, Anna Boyle, Colin Costello, Deirdre Ryan, Aoife Byrne, Gary Murray, and Stephen Cairns.",
+      "ner": [
+        {"name": "James McIlroy", "title": "Irish 800m Athlete", "type": "Media Personality"},
+        {"name": "Jimmy Watkins", "title": "Welsh Athlete", "type": "Media Personality"},
+        {"name": "Paul Brizzel", "title": "Irish 60m Hurdler", "type": "Media Personality"},
+        {"name": "Anna Boyle", "title": "Irish 60m Hurdler", "type": "Media Personality"},
+        {"name": "Ailis McSweeney", "title": "Irish 60m Sprinter", "type": "Media Personality"},
+        {"name": "Michelle Carroll", "title": "Former Irish 60m Record Holder", "type": "Media Personality"},
+        {"name": "David Gillick", "title": "Irish 400m Athlete", "type": "Media Personality"},
+        {"name": "Derval O'Rourke", "title": "Irish 60m Hurdler", "type": "Media Personality"},
+        {"name": "Sarah Claxton", "title": "British Hurdler", "type": "Media Personality"},
+        {"name": "James Nolan", "title": "Irish 1500m Runner", "type": "Media Personality"},
+        {"name": "Neil Speaight", "title": "British 1500m Runner", "type": "Media Personality"},
+        {"name": "Colin Costello", "title": "Irish Sprinter", "type": "Media Personality"},
+        {"name": "Deirdre Ryan", "title": "Irish Sprinter", "type": "Media Personality"},
+        {"name": "Aoife Byrne", "title": "Irish Sprinter", "type": "Media Personality"},
+        {"name": "Gary Murray", "title": "Irish 400m Runner", "type": "Media Personality"},
+        {"name": "Stephen Cairns", "title": "Irish 400m Runner", "type": "Media Personality"},
+        {"name": "Jill Shannon", "title": "Irish 3000m Runner", "type": "Media Personality"},
+        {"name": "Paul Rowan", "title": "Irish 1000m Runner", "type": "Media Personality"},
+        {"name": "Allan Bogle", "title": "Irish Athlete", "type": "Media Personality"}
+      ]
+    }
+  ],
+  "tech": [
+    {
+      "filename": "262.txt",
+      "text": "Broadband steams ahead in the US\n\nMore and more Americans are joining the internet's fast lane, according to official figures.\n\nThe number of people and business connected to broadband jumped by 38% in a year, said the US Federal Communications Commission (FCC). In a report, it said there were more than 32 million broadband connections by the end of June 2004. But the US is still behind compared to other nations, ranked 13th in the world by a UN telecoms body.\n\nDuring his 2004 re-election campaign, President George W Bush pledge to ensure that affordable high-speed net access would be available to all Americans by 2007.\n\nAccording to the report by the FCC, broadband is becoming increasingly popular, with people using it for research and shopping, as well as downloading music and watching video. The total number of people and businesses on broadband rose by to 32.5 million in the year ending June 2004, compared to 23.5 million in June 2003. Whereas in the UK, most people hook up to broadband via Asymmetric Digital Subscriber Line (ADSL) technology which lets ordinary copper phone lines support high data speeds. But in the US, cable leads the way, accounting for 18.6 million lines. Broadband over the phone line makes up 11.4 million connections, according to the FCC figures.",
+      "category": "tech",
+      "subcategory": "Internet & Connectivity",
+      "insight": "US broadband adoption surges by 38% in one year, reaching 32.5 million connections by June 2004, up from 23.5 million the previous year, according to the Federal Communications Commission. Despite this rapid growth, the United States ranks only 13th globally in broadband penetration according to a UN telecommunications body, trailing other developed nations. President George W Bush's 2004 re-election campaign included a pledge to make affordable high-speed internet access available to all Americans by 2007. The US market differs significantly from the UK model: while British consumers predominantly use ADSL technology over existing copper phone lines, American broadband is dominated by cable connections (18.6 million) with DSL accounting for only 11.4 million lines. Users are increasingly turning to broadband for research, shopping, music downloads, and video streaming.",
+      "ner": [
+        {"name": "George W Bush", "title": "US President", "type": "Politician"}
+      ]
+    },
+    {
+      "filename": "276.txt",
+      "text": "EA to take on film and TV giants\n\nVideo game giant Electronic Arts (EA) says it wants to become the biggest entertainment firm in the world.\n\nThe US firm says it wants to compete with companies such as Disney and will only achieve this by making games appeal to mainstream audiences. EA publishes blockbuster titles such as Fifa and John Madden, as well as video game versions of movies such as Harry Potter and the James Bond films. Its revenues were $3bn (£1.65bn) in 2004, which EA hoped to double by 2009. EA is the biggest games publisher in the world and in 2004 had 27 titles which sold in excess of one million copies each. Nine of the 20 biggest-selling games in the UK last year were published by EA.\n\nGerhard Florin, EA's managing director for European publishing, said: \"Doubling our industry in five years is not rocket science.\" He said it would take many years before EA could challenge Disney - which in 2004 reported revenues of $30bn (£16bn) - but it remained a goal for the company. \"We will be able to bring more people into gaming because games will be more emotional.\" Mr Florin predicted that the next round of games console would give developers enough power to create real emotion.\n\n\"It's the subtleties, the eyes, the mouth - 5,000 polygons doesn't really sell the emotion.\n\n\"With PS3 and Xbox 2, we can go on the main character with 30,000 to 50,000 polygons,\" he said. \"With that increased firepower, the Finding Nemo video game looks just like the movie, but it will be interactive.\" Jan Bolz, a senior vice president with EA, said the company was constantly looking at innovative ways to engage players. \"I think the buzzword here is clearly 'customisation',\" he said. \"If you're playing Fifa you can upload photos of yourself and make a player that looks like you. \"You can pick your team, whether it's Chelsea or Leyton Orient. You can even hum your favourite song and can bring it into the game. \"It's a great feature for The Sims 2. You can hum the tune to the latest Robbie Williams song and the Sims will mimic that.\" Christina Aguilera has written a song especially for The Urbz, a recent version of The Sims, called \"Get Ur Freak On\". Mr Bolz said in the future, EA hopes to sell games where the player is an entirely customised character. \"In future people will be able to put their faces on characters and talk to them and ask them questions,\" he said. \"In the real world, you can ask somebody the same question twice and you will get a different response. We want to emulate that in the digital world.\"",
+      "category": "tech",
+      "subcategory": "Tech Business & Mergers",
+      "insight": "Electronic Arts announces ambitious plans to become the world's largest entertainment company, rivalling Disney's $30bn revenues by doubling its own $3bn (2004) to $6bn by 2009 through mainstream audience appeal. EA's European publishing chief Gerhard Florin explains that next-generation consoles (PS3, Xbox 2) will enable unprecedented emotional realism through vastly increased polygon counts—30,000-50,000 per character versus current 5,000—making games like Finding Nemo visually indistinguishable from films but interactive. The strategy centres on extensive customisation: FIFA players can upload their own photos to create personalised avatars, hum favourite songs (including Robbie Williams tracks) to import into The Sims 2, and choose any team from Chelsea to Leyton Orient. Senior VP Jan Bolz envisions a future where players can create fully customised characters that respond dynamically to questions—replicating real-world conversational variety. Christina Aguilera has already composed an exclusive track for The Urbz, demonstrating EA's crossover entertainment ambitions.",
+      "ner": [
+        {"name": "Gerhard Florin", "title": "EA Managing Director for European Publishing", "type": "Media Personality"},
+        {"name": "Jan Bolz", "title": "EA Senior Vice President", "type": "Media Personality"},
+        {"name": "Robbie Williams", "title": "Singer", "type": "Musician"},
+        {"name": "Christina Aguilera", "title": "Singer", "type": "Musician"}
+      ]
+    },
+    {
+      "filename": "100.txt",
+      "text": "Honour for UK games maker\n\nLeading British computer games maker Peter Molyneux has been made an OBE in the New Year Honours list.\n\nThe head of Surrey's Lionhead Studios was granted the honour for services to the computer games industry. Mr Molyneux has been behind many of the ground-breaking games of the last 15 years such as Populous, Theme Park, Dungeon Keeper and Black and White. He is widely credited with helping to create and popularise the so-called god-game genre.\n\nSpeaking to the BBC News website Mr Molyneux said receiving the honour was something of a surprise. It's come completely out of the blue,\" he said, \"I never would have guessed that I'd have that kind of honour.\" He said he was surprised as much because, not too long ago, many people thought computer gaming was a fad.\n\n\"It was thought to be like skateboarding,\" he said, \"a craze that everyone thought would go away.\" Now, he said, the gaming world rivals the movie industry for sales and cultural influence. \"Britain plays a big part in it,\" he said. \"It's one of the founding nations that made the industry what it is.\" Mr Molyneux has been a pivotal figure in the computer games industry for almost 20 years. His career started at Bullfrog Studios which in 1987 produced Populous one of the first God-games. The title gave players control over the lives a small population of computerised people. Mr Molyneux said that his involvement with the games industry started almost by accident as back in the early days game making was not seen as a proper career. But, he said, it has become a popular career choice and some courses for the thousands of people who want to work in the industry are significantly over-subscribed. \"There's certainly a skill shortage,\" he said. Proof of how far the British games industry has come can be seen in the fact that it now generates billions of pounds every year and employs thousands of people. Also honoured in the New Year list was Alex Macris, managing director of Cardiff-based software firm Eidos. Mr Macris was given an OBE in recognition of his work for the Welsh software industry and for services to exports. He is now honorary president for the Tiga, the trade body for the UK games industry.",
+      "category": "tech",
+      "subcategory": "Science & Innovation",
+      "insight": "Legendary British game developer Peter Molyneux receives an OBE in the New Year Honours for his transformative contributions to the computer games industry over two decades. The Lionhead Studios founder, creator of groundbreaking titles including Populous (1987), Theme Park, Dungeon Keeper, and Black & White, is widely credited with pioneering and popularising the 'god-game' genre where players control the lives of virtual populations. Molyneux reflects on how the industry has evolved from being dismissed as a passing 'fad like skateboarding' to rivalling the movie industry in sales and cultural influence, with Britain playing a foundational role. The honour comes as the UK games sector generates billions of pounds annually and employs thousands, though Molyneux notes a significant skills shortage despite over-subscribed training courses. His career at Bullfrog Studios began almost accidentally when game development wasn't considered a legitimate profession—a stark contrast to today's competitive industry landscape.",
+      "ner": [
+        {"name": "Peter Molyneux", "title": "British Computer Games Maker", "type": "Media Personality"}
+      ]
+    }
+  ]
+}
+;
+
+        let currentCategory = '';
+        let currentArticle = null;
+
+        function loadCategory(category) {
+            currentCategory = category;
+            currentArticle = null;
+            
+            const articleList = document.getElementById('article-list');
+            const articleSection = document.getElementById('article-section');
+            const analyseBtn = document.getElementById('analyse-btn');
+            
+            articleList.innerHTML = '';
+            analyseBtn.disabled = true;
+            document.getElementById('results').classList.remove('active');
+            
+            const articles = bbcDataset[category];
+            articles.forEach((article, index) => {
+                const item = document.createElement('div');
+                item.className = 'article-item';
+                item.onclick = () => selectArticle(index);
+                
+                const preview = article.text.substring(0, 150) + '...';
+                
+                item.innerHTML = `
+                    <div class="article-filename">📄 ${article.filename}</div>
+                    <div class="article-preview">${preview}</div>
+                `;
+                
+                articleList.appendChild(item);
+            });
+            
+            articleSection.classList.add('active');
+        }
+
+        function selectArticle(index) {
+            currentArticle = bbcDataset[currentCategory][index];
+            
+            document.querySelectorAll('.article-item').forEach((item, i) => {
+                item.classList.toggle('selected', i === index);
+            });
+            
+            document.getElementById('analyse-btn').disabled = false;
+        }
+
+        function analyseArticle() {
+            if (!currentArticle) return;
+            
+            document.getElementById('results').classList.add('active');
+            
+            setTimeout(() => {
+                document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+            
+            const categoryFormatted = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
+            document.getElementById('category-result').textContent = categoryFormatted;
+            
+            document.getElementById('subcategory-result').textContent = currentArticle.subcategory;
+            
+            const wordCount = currentArticle.text.split(/\s+/).length;
+            document.getElementById('word-count').textContent = wordCount;
+            
+            const entities = currentArticle.ner;
+            document.getElementById('entity-count').textContent = entities.length;
+            
+            const confidence = entities.length > 0 ? 95 : 90;
+            document.getElementById('confidence').textContent = confidence + '%';
+            
+            const entityList = document.getElementById('entity-list');
+            if (entities.length > 0) {
+                entityList.innerHTML = entities.map(entity => {
+                    const typeClass = entity.type.toLowerCase().replace(/\s+/g, '-').replace(/\//g, '-');
+                    return `
+                        <div class="entity-card">
+                            <div class="entity-name">${entity.name}</div>
+                            <div class="entity-title">${entity.title}</div>
+                            <span class="entity-type ${typeClass}">${entity.type}</span>
+                        </div>
+                    `;
+                }).join('');
+            } else {
+                entityList.innerHTML = `
+                    <div class="no-results">
+                        No media personalities detected in this article based on the NER dataset.
+                    </div>
+                `;
+            }
+            
+            document.getElementById('insight-text').textContent = currentArticle.insight;
+        }
+
+        function resetAnalyser() {
+            document.getElementById('results').classList.remove('active');
+            document.getElementById('article-section').classList.remove('active');
+            currentCategory = '';
+            currentArticle = null;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
