@@ -1,534 +1,590 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Results - AI Tools for Kingdom Professionals</title>
-<style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Results - AI Tools for Kingdom Professionals</title>
 
-        :root {
-            --primary-dark: #0f1419;
-            --primary-yellow: #fef08a;
-            --accent-green: #10b981;
-            --dark-green: #065f46;
-            --forest-green: #064e3b;
-            --text-gray: #6b7280;
-            --border-gray: #e5e7eb;
-            --bg-light: #ffffff;
-            --shadow: rgba(0, 0, 0, 0.08);
-        }
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-T4JGVNLZ67"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-T4JGVNLZ67');
+  </script>
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            background: #fff;
-            color: #111827;
-            line-height: 1.5;
-        }
+  <style>
+    :root {
+      --primary-dark: #0f1419;
+      --dark-green: #065f46;
+      --forest-green: #064e3b;
+      --text-dark: #1f2937;
+      --text-light: #6b7280;
+      --primary-yellow: #fef08a;
+      --bg-gradient-start: #0a192f;
+      --bg-gradient-mid: #1e3a5f;
+      --bg-gradient-end: #064e3b;
 
-        /* NAV */
-        header {
-            background: #fff;
-            border-bottom: 1px solid var(--border-gray);
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
+      /* Results-specific accents */
+      --accent-green: #10b981;
+      --border-gray: #e5e7eb;
+      --shadow: rgba(0, 0, 0, 0.08);
+    }
 
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 14px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            color: #111827;
-            text-decoration: none;
-        }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-dark);
+      line-height: 1.6;
+      background: #fff;
+    }
 
-        .brand img {
-            height: 26px;
-            width: auto;
-            display: block;
-        }
+    /* NAV (match Services/Testimonials) */
+    nav {
+      background: rgba(255, 255, 255, 0.98);
+      padding: 0.75rem 2rem;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
 
-        nav ul {
-            list-style: none;
-            display: flex;
-            gap: 22px;
-        }
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-        nav a {
-            text-decoration: none;
-            color: #6b7280;
-            font-weight: 600;
-            font-size: 14px;
-        }
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+    }
 
-        nav a.active {
-            color: var(--accent-green);
-        }
+    .logo-image {
+      height: 70px;
+      width: auto;
+      display: block;
+    }
 
-        /* HERO */
-        .hero {
-            background: linear-gradient(90deg, #0b2230, #064e3b);
-            color: #fff;
-            padding: 62px 24px;
-            text-align: center;
-        }
+    .logo-text {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--dark-green);
+    }
 
-        .hero h1 {
-            font-size: 42px;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
 
-        .hero p {
-            color: rgba(255,255,255,0.88);
-            max-width: 760px;
-            margin: 0 auto;
-            font-size: 14px;
-        }
+    .nav-links a {
+      color: var(--text-dark);
+      text-decoration: none;
+      font-weight: 500;
+    }
 
-        /* SECTION */
-        .section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 56px 24px;
-            text-align: center;
-        }
+    .nav-links a.active {
+      color: var(--dark-green);
+      font-weight: 700;
+    }
 
-        .section h2 {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
+    /* HERO (match Services/Testimonials) */
+    .results-hero {
+      background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-mid) 50%, var(--bg-gradient-end) 100%);
+      color: white;
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+    }
 
-        .section .subtext {
-            max-width: 720px;
-            margin: 0 auto 34px auto;
-            color: var(--text-gray);
-            font-size: 12px;
-        }
+    .hero-title {
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
 
-        /* PROJECT GRID */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 22px;
-            align-items: stretch;
-            justify-content: center;
-            margin-top: 8px;
-        }
+    .hero-subtitle {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
 
-        @media (max-width: 980px) {
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+    /* SECTION */
+    .section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+      text-align: center;
+    }
 
-        .project-card {
-            background: #fff;
-            border: 1px solid var(--border-gray);
-            border-radius: 14px;
-            padding: 18px;
-            box-shadow: 0 10px 28px var(--shadow);
-            text-align: left;
+    .section h2 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
 
-            /* Key fix: make all cards equal height and allow footer to sit consistently */
-            display: flex;
-            flex-direction: column;
-            min-height: 560px;
-        }
+    .section .subtext {
+      max-width: 780px;
+      margin: 0 auto 2.25rem auto;
+      color: var(--text-light);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
 
-        .project-head {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            margin-bottom: 10px;
-        }
+    /* PROJECT GRID */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      align-items: stretch;
+      justify-content: center;
+      margin-top: 8px;
+      text-align: left;
+    }
 
-        .tool-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: #f3f4f6;
-            display: grid;
-            place-items: center;
-            font-size: 18px;
-            flex: 0 0 auto;
-        }
+    @media (max-width: 980px) {
+      .projects-grid { grid-template-columns: 1fr; }
+    }
 
-        .project-title {
-            font-size: 14px;
-            font-weight: 800;
-            margin-top: 2px;
-        }
+    .project-card {
+      background: #fff;
+      border: 1px solid var(--border-gray);
+      border-radius: 15px;
+      padding: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      min-height: 560px;
+    }
 
-        /* Highlighted description */
-        .project-highlight {
-            background: #f9fafb;
-            border: 1px solid var(--border-gray);
-            border-radius: 10px;
-            padding: 12px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #111827;
-            margin: 10px 0 14px 0;
-        }
+    .project-head {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
 
-        /* Stats row */
-        .stats-row {
-            background: #f9fafb;
-            border: 1px solid var(--border-gray);
-            border-radius: 12px;
-            padding: 12px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 16px;
-        }
+    .tool-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 12px;
+      background: #f3f4f6;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      flex: 0 0 auto;
+    }
 
-        .stat-box {
-            background: #ffffff;
-            border: 1px solid var(--border-gray);
-            border-radius: 12px;
-            padding: 12px 10px;
-            text-align: center;
-        }
+    .project-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-top: 4px;
+      color: var(--text-dark);
+    }
 
-        .stat-number {
-            font-weight: 900;
-            font-size: 18px;
-            letter-spacing: -0.3px;
-        }
+    /* Highlighted description */
+    .project-highlight {
+      background: #f9fafb;
+      border: 1px solid var(--border-gray);
+      border-radius: 12px;
+      padding: 14px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      margin: 10px 0 16px 0;
+      line-height: 1.7;
+    }
 
-        .stat-label {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--text-gray);
-            margin-top: 4px;
-        }
+    /* Stats row (FIX: keep inside container) */
+    .stats-row {
+      background: #f9fafb;
+      border: 1px solid var(--border-gray);
+      border-radius: 12px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
 
-        /* Features */
-        .features-title {
-            font-weight: 900;
-            margin: 12px 0 12px;
-            font-size: 13px;
-        }
+    .stats-row.stats-row--3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
 
-        .features-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 14px;
-        }
+    .stat-box {
+      background: #ffffff;
+      border: 1px solid var(--border-gray);
+      border-radius: 12px;
+      padding: 12px 10px;
+      text-align: center;
+      min-width: 0;
+    }
 
-        .feature-item {
-            display: flex;
-            gap: 10px;
-            align-items: flex-start;
-            font-size: 12px;
-            color: #111827;
-        }
+    .stat-number {
+      font-weight: 800;
+      font-size: 1.125rem;
+      letter-spacing: -0.3px;
+      color: var(--text-dark);
+    }
 
-        .feature-check {
-            color: var(--accent-green);
-            font-weight: 900;
-            line-height: 1;
-            margin-top: 2px;
-        }
+    .stat-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      margin-top: 4px;
+      font-weight: 600;
+    }
 
-        /* FOOTER block inside card (fixes big gaps) */
-        .card-footer {
-            margin-top: auto; /* pushes disclaimer+buttons to bottom consistently */
-        }
+    /* Features */
+    .features-title {
+      font-weight: 700;
+      margin: 12px 0 12px;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+    }
 
-        .disclaimer {
-            background: #fef3c7;
-            border-left: 5px solid #f59e0b;
-            border-radius: 10px;
-            padding: 12px;
-            font-size: 12px;
-            margin: 8px 0 14px 0;
-            color: #111827;
-        }
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
 
-        .disclaimer a {
-            color: var(--dark-green);
-            font-weight: 800;
-            text-decoration: none;
-        }
+    .feature-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      font-size: 0.9rem;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
 
-        .license-credit {
-            display: inline-block;
-            margin-top: 6px;
-            font-size: 12px;
-            color: #374151;
-        }
+    .feature-check {
+      color: var(--accent-green);
+      font-weight: 900;
+      line-height: 1;
+      margin-top: 3px;
+    }
 
-        .button-group {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+    /* Footer block inside each card */
+    .card-footer { margin-top: auto; }
 
-        .demo-button {
-            background: var(--primary-yellow);
-            border-radius: 12px;
-            padding: 12px 16px;
-            display: inline-block;
-            text-decoration: none;
-            color: #111827;
-            font-weight: 800;
-            font-size: 12px;
-        }
+    .disclaimer {
+      background: #fef3c7;
+      border-left: 5px solid #f59e0b;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 0.9rem;
+      margin: 8px 0 14px 0;
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
 
-        .dataset-button {
-            background: var(--accent-green);
-            color: #fff;
-        }
+    .disclaimer a {
+      color: var(--dark-green);
+      font-weight: 800;
+      text-decoration: none;
+    }
 
-        /* Coming soon */
-        .coming-soon {
-            border-style: dashed;
-            box-shadow: none;
-            color: var(--text-gray);
-        }
+    .license-credit {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 0.9rem;
+      color: #374151;
+    }
 
-        .coming-soon .project-title {
-            color: #9ca3af;
-        }
+    .button-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
 
-        .coming-soon .project-highlight,
-        .coming-soon .stats-row,
-        .coming-soon .features-title,
-        .coming-soon .features-list,
-        .coming-soon .card-footer {
-            display: none;
-        }
+    .demo-button {
+      background: var(--primary-yellow);
+      border-radius: 12px;
+      padding: 12px 16px;
+      display: inline-block;
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: 800;
+      font-size: 0.9rem;
+      box-shadow: 0 10px 30px rgba(254, 240, 138, 0.25);
+      transition: transform 0.2s ease;
+    }
 
-        .coming-soon .coming-text {
-            text-align: center;
-            padding: 26px 14px 10px;
-        }
+    .demo-button:hover { transform: translateY(-2px); }
 
-        /* CTA */
-        .cta {
-            background: #ffffff;
-            padding: 56px 24px 70px;
-            text-align: center;
-        }
+    .dataset-button {
+      background: var(--accent-green);
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);
+    }
 
-        .cta h3 {
-            font-size: 34px;
-            font-weight: 900;
-            margin-bottom: 8px;
-        }
+    /* Coming soon */
+    .coming-soon {
+      border-style: dashed;
+      box-shadow: none;
+      color: var(--text-light);
+    }
 
-        .cta p {
-            max-width: 680px;
-            margin: 0 auto 18px auto;
-            color: var(--text-gray);
-            font-size: 12px;
-        }
+    .coming-soon .project-title { color: #9ca3af; }
 
-        .cta a {
-            display: inline-block;
-            background: var(--primary-yellow);
-            padding: 14px 18px;
-            border-radius: 12px;
-            color: #111827;
-            text-decoration: none;
-            font-weight: 900;
-            font-size: 12px;
-        }
+    .coming-soon .project-highlight,
+    .coming-soon .stats-row,
+    .coming-soon .features-title,
+    .coming-soon .features-list,
+    .coming-soon .card-footer { display: none; }
 
-        /* Footer */
-        footer {
-            background: var(--primary-dark);
-            color: rgba(255,255,255,0.8);
-            text-align: center;
-            padding: 22px 12px;
-            font-size: 11px;
-        }
-    </style>
+    .coming-soon .coming-text {
+      text-align: center;
+      padding: 26px 14px 10px;
+      color: var(--text-light);
+      line-height: 1.8;
+    }
+
+    /* CTA (match Testimonials style) */
+    .cta-section {
+      background: linear-gradient(135deg,
+        rgba(200, 240, 220, 0.3) 0%,
+        rgba(180, 220, 240, 0.3) 25%,
+        rgba(220, 230, 250, 0.3) 50%,
+        rgba(240, 220, 200, 0.3) 75%,
+        rgba(250, 230, 210, 0.3) 100%);
+      padding: 6rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(150, 240, 200, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(200, 220, 255, 0.2) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .cta-content { position: relative; z-index: 1; }
+
+    .cta-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-dark);
+    }
+
+    .cta-subtitle {
+      max-width: 720px;
+      margin: 0 auto 1.75rem auto;
+      color: var(--text-light);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--primary-dark);
+      color: white;
+      padding: 1.25rem 3rem;
+      border-radius: 50px;
+      font-size: 1.125rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Footer (match Services/Testimonials) */
+    footer {
+      background: var(--primary-dark);
+      color: white;
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .footer-text { color: rgba(255, 255, 255, 0.8); }
+  </style>
 </head>
+
 <body>
 
-<header>
-  <div class="nav-container">
-    <a class="brand" href="index.html">
-      <img alt="Logo" src="logo.png"/>
-      <span>AI Tools for Kingdom Professionals</span>
-    </a>
-    <nav>
-      <ul>
+  <nav>
+    <div class="nav-container">
+      <a href="index.html" class="logo-container">
+        <img src="logo.svg" alt="Eden Mandate Logo" class="logo-image" />
+        <div class="logo-text">AI Tools for Kingdom Professionals</div>
+      </a>
+      <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="services.html">Services</a></li>
         <li><a class="active" href="results.html">Results</a></li>
         <li><a href="testimonials.html">Testimonials</a></li>
       </ul>
-    </nav>
-  </div>
-</header>
-
-<section class="hero">
-  <h1>See AI in Action</h1>
-  <p>Real solutions delivering measurable results for professionals and organisations</p>
-</section>
-
-<section class="section">
-  <h2>Our Work</h2>
-  <p class="subtext">
-    From intelligence chatbots to advanced text analysis, these projects demonstrate the practicality of ethical AI implementation.
-  </p>
-
-  <div class="projects-grid">
-
-    <!-- 1) News Intelligence Analyser (FIRST) -->
-    <div class="project-card">
-      <div class="project-head">
-        <div class="tool-icon">📰</div>
-        <div class="project-title">News Intelligence Analyser</div>
-      </div>
-
-      <div class="project-highlight">
-        Turn your company's internal reports, emails, or PDFs into searchable intelligence.
-      </div>
-
-      <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-number">2,225</div>
-          <div class="stat-label">Articles</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">100%</div>
-          <div class="stat-label">Accuracy</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">87</div>
-          <div class="stat-label">Entities</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">5</div>
-          <div class="stat-label">Categories</div>
-        </div>
-      </div>
-
-      <div class="features-title">Key Features</div>
-      <div class="features-list">
-        <div class="feature-item"><span class="feature-check">✓</span><span>Real-time named entity recognition with 100% confidence</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Automatic category &amp; subcategory classification</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Article-specific insights and summaries</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Full-text analysis with word count metrics</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Interactive UI for easy navigation</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Dataset access for performance evaluation</span></div>
-      </div>
-
-      <div class="card-footer">
-        <div class="disclaimer">
-          <strong>⚠️ DEMO ONLY:</strong> Visit
-          <a href="https://www.bbc.com/news" target="_blank">bbc.com/news</a> for current info
-          <br/>
-          <span class="license-credit">
-            License / credits:
-            <a href="https://github.com/Udodirim/News_Intelligence_with_NLP/blob/main/README.TXT" target="_blank">README</a>
-            (source attribution)
-          </span>
-        </div>
-
-        <div class="button-group">
-          <a class="demo-button" href="news_intelligence_analyser_production.html">Launch Demo</a>
-          <a class="demo-button dataset-button" href="#">📊 View Dataset</a>
-        </div>
-      </div>
     </div>
+  </nav>
 
-    <!-- 2) Nigerian Immigration Visa Chatbot (SECOND) -->
-    <div class="project-card">
-      <div class="project-head">
-        <div class="tool-icon">🤖</div>
-        <div class="project-title">Nigerian Immigration Visa Chatbot</div>
-      </div>
+  <section class="results-hero">
+    <h1 class="hero-title">See AI in Action</h1>
+    <p class="hero-subtitle">Real solutions delivering measurable results for professionals and organisations</p>
+  </section>
 
-      <div class="project-highlight">
-        Customisable for any sector.
-      </div>
+  <section class="section">
+    <h2>Our Work</h2>
+    <p class="subtext">
+      From intelligence chatbots to advanced text analysis, these projects demonstrate the practicality of ethical AI implementation.
+    </p>
 
-      <div class="stats-row" style="grid-template-columns: repeat(3, 1fr);">
-        <div class="stat-box">
-          <div class="stat-number">100%</div>
-          <div class="stat-label">Query Resolution</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">3</div>
-          <div class="stat-label">Visa Categories</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">2 sec</div>
-          <div class="stat-label">Response Time</div>
-        </div>
-      </div>
+    <div class="projects-grid">
 
-      <div class="features-title">Key Features</div>
-      <div class="features-list">
-        <div class="feature-item"><span class="feature-check">✓</span><span>Instant answers to visa, passport, and permit queries</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Document requirements and fee breakdowns</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Processing timelines and status updates</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Reduces staff workload by 60%+</span></div>
-      </div>
-
-      <div class="card-footer">
-        <div class="disclaimer">
-          <strong>⚠️ DEMO ONLY:</strong> For official visa information, visit
-          <a href="https://immigration.gov.ng/" target="_blank">immigration.gov.ng</a>
+      <!-- 1) News Intelligence Analyser -->
+      <div class="project-card">
+        <div class="project-head">
+          <div class="tool-icon">📰</div>
+          <div class="project-title">News Intelligence Analyser</div>
         </div>
 
-        <div class="button-group">
-          <a class="demo-button" href="visa-demo.html">Launch Demo</a>
+        <div class="project-highlight">
+          Turn your company's internal reports, emails, or PDFs into searchable intelligence.
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="stat-number">2,225</div>
+            <div class="stat-label">Articles</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Accuracy</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">87</div>
+            <div class="stat-label">Entities</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Categories</div>
+          </div>
+        </div>
+
+        <div class="features-title">Key Features</div>
+        <div class="features-list">
+          <div class="feature-item"><span class="feature-check">✓</span><span>Real-time named entity recognition with 100% confidence</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Automatic category &amp; subcategory classification</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Article-specific insights and summaries</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Full-text analysis with word count metrics</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Interactive UI for easy navigation</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Dataset access for performance evaluation</span></div>
+        </div>
+
+        <div class="card-footer">
+          <div class="disclaimer">
+            <strong>⚠️ DEMO ONLY:</strong> Visit
+            <a href="https://www.bbc.com/news" target="_blank">bbc.com/news</a> for current info
+            <br />
+            <span class="license-credit">
+              License / credits:
+              <a href="https://github.com/Udodirim/News_Intelligence_with_NLP/blob/main/README.TXT" target="_blank">README</a>
+              (source attribution)
+            </span>
+          </div>
+
+          <div class="button-group">
+            <a class="demo-button" href="news_intelligence_analyser_production.html">Launch Demo</a>
+            <a class="demo-button dataset-button" href="#">📊 View Dataset</a>
+          </div>
         </div>
       </div>
+
+      <!-- 2) Nigerian Immigration Visa Chatbot -->
+      <div class="project-card">
+        <div class="project-head">
+          <div class="tool-icon">🤖</div>
+          <div class="project-title">Nigerian Immigration Visa Chatbot</div>
+        </div>
+
+        <div class="project-highlight">
+          Customisable for any sector.
+        </div>
+
+        <div class="stats-row stats-row--3">
+          <div class="stat-box">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Query Resolution</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Visa Categories</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-number">2 sec</div>
+            <div class="stat-label">Response Time</div>
+          </div>
+        </div>
+
+        <div class="features-title">Key Features</div>
+        <div class="features-list">
+          <div class="feature-item"><span class="feature-check">✓</span><span>Instant answers to visa, passport, and permit queries</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Document requirements and fee breakdowns</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Processing timelines and status updates</span></div>
+          <div class="feature-item"><span class="feature-check">✓</span><span>Reduces staff workload by 60%+</span></div>
+        </div>
+
+        <div class="card-footer">
+          <div class="disclaimer">
+            <strong>⚠️ DEMO ONLY:</strong> For official visa information, visit
+            <a href="https://immigration.gov.ng/" target="_blank">immigration.gov.ng</a>
+          </div>
+
+          <div class="button-group">
+            <a class="demo-button" href="visa-demo.html">Launch Demo</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3) Coming Soon -->
+      <div class="project-card coming-soon">
+        <div class="project-head">
+          <div class="tool-icon">⏳</div>
+          <div class="project-title">Next Project Coming Soon</div>
+        </div>
+        <div class="coming-text">
+          <p>More AI solutions in development.</p>
+          <p>Stay tuned for updates on workflow automation, donor management, and analytics dashboards.</p>
+        </div>
+      </div>
+
     </div>
+  </section>
 
-    <!-- 3) Coming Soon -->
-    <div class="project-card coming-soon">
-      <div class="project-head">
-        <div class="tool-icon">⏳</div>
-        <div class="project-title">Next Project Coming Soon</div>
-      </div>
-      <div class="coming-text">
-        <p>More AI solutions in development.</p>
-        <p>Stay tuned for updates on workflow automation, donor management, and analytics dashboards.</p>
-      </div>
+  <section class="cta-section">
+    <div class="cta-content">
+      <h3 class="cta-title">Ready to Transform Your<br>Operations?</h3>
+      <p class="cta-subtitle">Unlock similar efficiency and insights for your business or organisation. Let's build custom AI solution together.</p>
+      <a class="cta-button" href="#">Book a Free 15-Minute Clarity Call</a>
     </div>
+  </section>
 
-  </div>
-</section>
-
-<section class="cta">
-  <h3>Ready to Transform Your<br/>Operations?</h3>
-  <p>Unlock similar efficiency and insights for your business or organisation. Let's build custom AI solution together.</p>
-  <a href="#">Book a Free 15-Minute Clarity Call</a>
-</section>
-
-<footer>
-  <div>© 2025 AI Tools for Kingdom Professionals - Eden Mandate. All rights reserved.</div>
-  <div>Empowering Kingdom Leaders with Ethical AI Solutions</div>
-</footer>
+  <footer>
+    <div class="footer-text">&copy; 2025 AI Tools for Kingdom Professionals - Eden Mandate. All rights reserved.</div>
+    <div class="footer-text" style="margin-top: 0.5rem; font-size: 0.875rem;">Empowering Kingdom Leaders with Ethical AI Solutions</div>
+  </footer>
 
 </body>
 </html>
