@@ -1,269 +1,534 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Results | AI Tools for Kingdom Professionals</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Results - AI Tools for Kingdom Professionals</title>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <style>
-    body {
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      margin: 0;
-      background: #ffffff;
-      color: #111827;
-    }
+        :root {
+            --primary-dark: #0f1419;
+            --primary-yellow: #fef08a;
+            --accent-green: #10b981;
+            --dark-green: #065f46;
+            --forest-green: #064e3b;
+            --text-gray: #6b7280;
+            --border-gray: #e5e7eb;
+            --bg-light: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.08);
+        }
 
-    .container {
-      max-width: 1200px;
-      margin: 80px auto;
-      padding: 0 24px;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background: #fff;
+            color: #111827;
+            line-height: 1.5;
+        }
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 32px;
-      align-items: stretch;
-    }
+        /* NAV */
+        header {
+            background: #fff;
+            border-bottom: 1px solid var(--border-gray);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
 
-    .card {
-      background: #ffffff;
-      border: 1px solid #e5e7eb;
-      border-radius: 16px;
-      padding: 28px;
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-    }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-    .card-header {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 18px;
-    }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            color: #111827;
+            text-decoration: none;
+        }
 
-    .icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      background: #f3f4f6;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-    }
+        .brand img {
+            height: 26px;
+            width: auto;
+            display: block;
+        }
 
-    h3 {
-      margin: 0;
-      font-size: 20px;
-      font-weight: 700;
-    }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 22px;
+        }
 
-    .highlight {
-      background: #f9fafb;
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 22px;
-      font-weight: 500;
-    }
+        nav a {
+            text-decoration: none;
+            color: #6b7280;
+            font-weight: 600;
+            font-size: 14px;
+        }
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 28px;
-    }
+        nav a.active {
+            color: var(--accent-green);
+        }
 
-    .stat {
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 16px;
-      text-align: center;
-    }
+        /* HERO */
+        .hero {
+            background: linear-gradient(90deg, #0b2230, #064e3b);
+            color: #fff;
+            padding: 62px 24px;
+            text-align: center;
+        }
 
-    .stat strong {
-      display: block;
-      font-size: 20px;
-      font-weight: 700;
-    }
+        .hero h1 {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
 
-    .stat span {
-      font-size: 12px;
-      text-transform: uppercase;
-      color: #6b7280;
-      letter-spacing: 0.05em;
-    }
+        .hero p {
+            color: rgba(255,255,255,0.88);
+            max-width: 760px;
+            margin: 0 auto;
+            font-size: 14px;
+        }
 
-    h4 {
-      margin: 0 0 14px;
-      font-size: 16px;
-      font-weight: 700;
-    }
+        /* SECTION */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 56px 24px;
+            text-align: center;
+        }
 
-    ul {
-      list-style: none;
-      padding: 0;
-      margin: 0 0 24px;
-    }
+        .section h2 {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
 
-    li {
-      margin-bottom: 10px;
-      padding-left: 22px;
-      position: relative;
-    }
+        .section .subtext {
+            max-width: 720px;
+            margin: 0 auto 34px auto;
+            color: var(--text-gray);
+            font-size: 12px;
+        }
 
-    li::before {
-      content: "✓";
-      position: absolute;
-      left: 0;
-      color: #10b981;
-      font-weight: 700;
-    }
+        /* PROJECT GRID */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 22px;
+            align-items: stretch;
+            justify-content: center;
+            margin-top: 8px;
+        }
 
-    .card-footer {
-      margin-top: auto;
-    }
+        @media (max-width: 980px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
 
-    .demo-alert {
-      background: #fef3c7;
-      border-left: 5px solid #f59e0b;
-      border-radius: 12px;
-      padding: 16px;
-      font-size: 14px;
-      margin-bottom: 16px;
-    }
+        .project-card {
+            background: #fff;
+            border: 1px solid var(--border-gray);
+            border-radius: 14px;
+            padding: 18px;
+            box-shadow: 0 10px 28px var(--shadow);
+            text-align: left;
 
-    .demo-alert a {
-      color: #065f46;
-      font-weight: 600;
-      text-decoration: none;
-    }
+            /* Key fix: make all cards equal height and allow footer to sit consistently */
+            display: flex;
+            flex-direction: column;
+            min-height: 560px;
+        }
 
-    .demo-alert .license {
-      margin-top: 6px;
-      color: #374151;
-      font-size: 13px;
-    }
+        .project-head {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
 
-    .buttons {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-    }
+        .tool-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #f3f4f6;
+            display: grid;
+            place-items: center;
+            font-size: 18px;
+            flex: 0 0 auto;
+        }
 
-    .btn {
-      background: #fde68a;
-      color: #111827;
-      padding: 14px 22px;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 600;
-      display: inline-block;
-    }
+        .project-title {
+            font-size: 14px;
+            font-weight: 800;
+            margin-top: 2px;
+        }
 
-    .btn.secondary {
-      background: #10b981;
-      color: #ffffff;
-    }
+        /* Highlighted description */
+        .project-highlight {
+            background: #f9fafb;
+            border: 1px solid var(--border-gray);
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #111827;
+            margin: 10px 0 14px 0;
+        }
 
-    @media (max-width: 768px) {
-      .stats {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-  </style>
+        /* Stats row */
+        .stats-row {
+            background: #f9fafb;
+            border: 1px solid var(--border-gray);
+            border-radius: 12px;
+            padding: 12px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .stat-box {
+            background: #ffffff;
+            border: 1px solid var(--border-gray);
+            border-radius: 12px;
+            padding: 12px 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-weight: 900;
+            font-size: 18px;
+            letter-spacing: -0.3px;
+        }
+
+        .stat-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-gray);
+            margin-top: 4px;
+        }
+
+        /* Features */
+        .features-title {
+            font-weight: 900;
+            margin: 12px 0 12px;
+            font-size: 13px;
+        }
+
+        .features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .feature-item {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            font-size: 12px;
+            color: #111827;
+        }
+
+        .feature-check {
+            color: var(--accent-green);
+            font-weight: 900;
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        /* FOOTER block inside card (fixes big gaps) */
+        .card-footer {
+            margin-top: auto; /* pushes disclaimer+buttons to bottom consistently */
+        }
+
+        .disclaimer {
+            background: #fef3c7;
+            border-left: 5px solid #f59e0b;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 12px;
+            margin: 8px 0 14px 0;
+            color: #111827;
+        }
+
+        .disclaimer a {
+            color: var(--dark-green);
+            font-weight: 800;
+            text-decoration: none;
+        }
+
+        .license-credit {
+            display: inline-block;
+            margin-top: 6px;
+            font-size: 12px;
+            color: #374151;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .demo-button {
+            background: var(--primary-yellow);
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: inline-block;
+            text-decoration: none;
+            color: #111827;
+            font-weight: 800;
+            font-size: 12px;
+        }
+
+        .dataset-button {
+            background: var(--accent-green);
+            color: #fff;
+        }
+
+        /* Coming soon */
+        .coming-soon {
+            border-style: dashed;
+            box-shadow: none;
+            color: var(--text-gray);
+        }
+
+        .coming-soon .project-title {
+            color: #9ca3af;
+        }
+
+        .coming-soon .project-highlight,
+        .coming-soon .stats-row,
+        .coming-soon .features-title,
+        .coming-soon .features-list,
+        .coming-soon .card-footer {
+            display: none;
+        }
+
+        .coming-soon .coming-text {
+            text-align: center;
+            padding: 26px 14px 10px;
+        }
+
+        /* CTA */
+        .cta {
+            background: #ffffff;
+            padding: 56px 24px 70px;
+            text-align: center;
+        }
+
+        .cta h3 {
+            font-size: 34px;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .cta p {
+            max-width: 680px;
+            margin: 0 auto 18px auto;
+            color: var(--text-gray);
+            font-size: 12px;
+        }
+
+        .cta a {
+            display: inline-block;
+            background: var(--primary-yellow);
+            padding: 14px 18px;
+            border-radius: 12px;
+            color: #111827;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 12px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            color: rgba(255,255,255,0.8);
+            text-align: center;
+            padding: 22px 12px;
+            font-size: 11px;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="container">
-  <div class="cards">
+<header>
+  <div class="nav-container">
+    <a class="brand" href="index.html">
+      <img alt="Logo" src="logo.png"/>
+      <span>AI Tools for Kingdom Professionals</span>
+    </a>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a class="active" href="results.html">Results</a></li>
+        <li><a href="testimonials.html">Testimonials</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
 
-    <!-- News Intelligence Analyser -->
-    <div class="card">
-      <div class="card-header">
-        <div class="icon">📰</div>
-        <h3>News Intelligence Analyser</h3>
+<section class="hero">
+  <h1>See AI in Action</h1>
+  <p>Real solutions delivering measurable results for professionals and organisations</p>
+</section>
+
+<section class="section">
+  <h2>Our Work</h2>
+  <p class="subtext">
+    From intelligence chatbots to advanced text analysis, these projects demonstrate the practicality of ethical AI implementation.
+  </p>
+
+  <div class="projects-grid">
+
+    <!-- 1) News Intelligence Analyser (FIRST) -->
+    <div class="project-card">
+      <div class="project-head">
+        <div class="tool-icon">📰</div>
+        <div class="project-title">News Intelligence Analyser</div>
       </div>
 
-      <div class="highlight">
+      <div class="project-highlight">
         Turn your company's internal reports, emails, or PDFs into searchable intelligence.
       </div>
 
-      <div class="stats">
-        <div class="stat"><strong>2,225</strong><span>Articles</span></div>
-        <div class="stat"><strong>100%</strong><span>Accuracy</span></div>
-        <div class="stat"><strong>87</strong><span>Entities</span></div>
-        <div class="stat"><strong>5</strong><span>Categories</span></div>
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-number">2,225</div>
+          <div class="stat-label">Articles</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Accuracy</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">87</div>
+          <div class="stat-label">Entities</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">5</div>
+          <div class="stat-label">Categories</div>
+        </div>
       </div>
 
-      <h4>Key Features</h4>
-      <ul>
-        <li>Real-time named entity recognition with 100% confidence</li>
-        <li>Automatic category & subcategory classification</li>
-        <li>Article-specific insights and summaries</li>
-        <li>Full-text analysis with word count metrics</li>
-        <li>Interactive UI for easy navigation</li>
-        <li>Dataset access for performance evaluation</li>
-      </ul>
+      <div class="features-title">Key Features</div>
+      <div class="features-list">
+        <div class="feature-item"><span class="feature-check">✓</span><span>Real-time named entity recognition with 100% confidence</span></div>
+        <div class="feature-item"><span class="feature-check">✓</span><span>Automatic category &amp; subcategory classification</span></div>
+        <div class="feature-item"><span class="feature-check">✓</span><span>Article-specific insights and summaries</span></div>
+        <div class="feature-item"><span class="feature-check">✓</span><span>Full-text analysis with word count metrics</span></div>
+        <div class="feature-item"><span class="feature-check">✓</span><span>Interactive UI for easy navigation</span></div>
+        <div class="feature-item"><span class="feature-check">✓</span><span>Dataset access for performance evaluation</span></div>
+      </div>
 
       <div class="card-footer">
-        <div class="demo-alert">
+        <div class="disclaimer">
           <strong>⚠️ DEMO ONLY:</strong> Visit
-          <a href="https://bbc.com/news" target="_blank">bbc.com/news</a> for current info
-          <div class="license">
+          <a href="https://www.bbc.com/news" target="_blank">bbc.com/news</a> for current info
+          <br/>
+          <span class="license-credit">
             License / credits:
-            <a href="https://github.com/Udodirim/News_Intelligence_with_NLP/blob/main/README.TXT"
-               target="_blank">README (source attribution)</a>
-          </div>
+            <a href="https://github.com/Udodirim/News_Intelligence_with_NLP/blob/main/README.TXT" target="_blank">README</a>
+            (source attribution)
+          </span>
         </div>
 
-        <div class="buttons">
-          <a href="news-intelligence-demo.html" class="btn">Launch Demo</a>
-          <a href="#" class="btn secondary">View Dataset</a>
+        <div class="button-group">
+          <a class="demo-button" href="news_intelligence_analyser_production.html">Launch Demo</a>
+          <a class="demo-button dataset-button" href="#">📊 View Dataset</a>
         </div>
       </div>
     </div>
 
-    <!-- Nigerian Immigration Visa Chatbot -->
-    <div class="card">
-      <div class="card-header">
-        <div class="icon">🤖</div>
-        <h3>Nigerian Immigration Visa Chatbot</h3>
+    <!-- 2) Nigerian Immigration Visa Chatbot (SECOND) -->
+    <div class="project-card">
+      <div class="project-head">
+        <div class="tool-icon">🤖</div>
+        <div class="project-title">Nigerian Immigration Visa Chatbot</div>
       </div>
 
-      <div class="highlight">
+      <div class="project-highlight">
         Customisable for any sector.
       </div>
 
-      <div class="stats">
-        <div class="stat"><strong>100%</strong><span>Query Resolution</span></div>
-        <div class="stat"><strong>3</strong><span>Visa Categories</span></div>
-        <div class="stat"><strong>2 sec</strong><span>Response Time</span></div>
+      <div class="stats-row" style="grid-template-columns: repeat(3, 1fr);">
+        <div class="stat-box">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">Query Resolution</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Visa Categories</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">2 sec</div>
+          <div class="stat-label">Response Time</div>
+        </div>
       </div>
 
-      <h4>Key Features</h4>
-      <ul>
-        <li>Instant answers to visa, passport, and permit queries</li>
-        <li>Document requirements and fee breakdowns</li>
-        <li>Processing timelines and status updates</li>
-        <li>Reduces staff workload by 60%+</li>
-      </ul>
+      <div class="features-title">Key Features</div>
+      <div class="features-list">
+        <div class="feature-item"><span class="feature-check">✓</span><span>Instant answers to visa, passport, and permit queries</span></div>
+        <div class="feature-item"><span class="feature-check">✓</span><span>Document requirements and fee breakdowns</span></div>
+        <div class="feature-item"><span class="feature-check">✓</span><span>Processing timelines and status updates</span></div>
+        <div class="feature-item"><span class="feature-check">✓</span><span>Reduces staff workload by 60%+</span></div>
+      </div>
 
       <div class="card-footer">
-        <div class="demo-alert">
+        <div class="disclaimer">
           <strong>⚠️ DEMO ONLY:</strong> For official visa information, visit
-          <a href="https://immigration.gov.ng" target="_blank">immigration.gov.ng</a>
+          <a href="https://immigration.gov.ng/" target="_blank">immigration.gov.ng</a>
         </div>
 
-        <a href="visa-demo.html" class="btn">Launch Demo</a>
+        <div class="button-group">
+          <a class="demo-button" href="visa-demo.html">Launch Demo</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3) Coming Soon -->
+    <div class="project-card coming-soon">
+      <div class="project-head">
+        <div class="tool-icon">⏳</div>
+        <div class="project-title">Next Project Coming Soon</div>
+      </div>
+      <div class="coming-text">
+        <p>More AI solutions in development.</p>
+        <p>Stay tuned for updates on workflow automation, donor management, and analytics dashboards.</p>
       </div>
     </div>
 
   </div>
-</div>
+</section>
+
+<section class="cta">
+  <h3>Ready to Transform Your<br/>Operations?</h3>
+  <p>Unlock similar efficiency and insights for your business or organisation. Let's build custom AI solution together.</p>
+  <a href="#">Book a Free 15-Minute Clarity Call</a>
+</section>
+
+<footer>
+  <div>© 2025 AI Tools for Kingdom Professionals - Eden Mandate. All rights reserved.</div>
+  <div>Empowering Kingdom Leaders with Ethical AI Solutions</div>
+</footer>
 
 </body>
 </html>
