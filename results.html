@@ -18,296 +18,303 @@
             --accent-green: #10b981;
             --dark-green: #065f46;
             --forest-green: #064e3b;
-            --text-gray: #6b7280;
-            --border-gray: #e5e7eb;
-            --bg-light: #ffffff;
-            --shadow: rgba(0, 0, 0, 0.08);
+            --bg-gradient-start: #0a192f;
+            --bg-gradient-end: #064e3b;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --background-light: #f9fafb;
+            --white: #ffffff;
+            --border-color: #e5e7eb;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            background: #fff;
-            color: #111827;
-            line-height: 1.5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--white);
         }
 
-        /* NAV */
-        header {
-            background: #fff;
-            border-bottom: 1px solid var(--border-gray);
+        /* Navigation */
+        nav {
+            background: var(--white);
+            border-bottom: 1px solid var(--border-color);
             position: sticky;
             top: 0;
-            z-index: 50;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 14px 24px;
+            padding: 1rem 2rem;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
         }
 
-        .brand {
+        .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            color: #111827;
+            gap: 0.75rem;
             text-decoration: none;
         }
 
-        .brand img {
-            height: 26px;
+        .logo-img {
+            height: 40px;
             width: auto;
-            display: block;
         }
 
-        nav ul {
-            list-style: none;
+        .logo-text {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
             display: flex;
-            gap: 22px;
+            list-style: none;
+            gap: 2rem;
         }
 
-        nav a {
+        .nav-links a {
+            color: var(--text-light);
             text-decoration: none;
-            color: #6b7280;
-            font-weight: 600;
-            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+            font-size: 1rem;
         }
 
-        nav a.active {
+        .nav-links a:hover,
+        .nav-links a.active {
             color: var(--accent-green);
         }
 
-        /* HERO */
-        .hero {
-            background: linear-gradient(90deg, #0b2230, #064e3b);
-            color: #fff;
-            padding: 62px 24px;
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            color: var(--white);
+            padding: 4rem 2rem;
             text-align: center;
         }
 
-        .hero h1 {
-            font-size: 42px;
-            font-weight: 800;
-            margin-bottom: 8px;
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.2;
         }
 
-        .hero p {
-            color: rgba(255,255,255,0.88);
-            max-width: 760px;
+        .hero-subtitle {
+            font-size: clamp(1.125rem, 2vw, 1.375rem);
+            opacity: 0.95;
+            max-width: 850px;
             margin: 0 auto;
-            font-size: 14px;
+            line-height: 1.6;
         }
 
-        /* SECTION */
-        .section {
+        /* Section Intro */
+        .section-intro {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 56px 24px;
+            padding: 4rem 2rem 2rem;
             text-align: center;
         }
 
-        .section h2 {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 10px;
-        }
-
-        .section .subtext {
-            max-width: 720px;
-            margin: 0 auto 34px auto;
-            color: var(--text-gray);
-            font-size: 12px;
-        }
-
-        /* PROJECT GRID */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 22px;
-            align-items: stretch;
-            justify-content: center;
-            margin-top: 8px;
-        }
-
-        @media (max-width: 980px) {
-            .projects-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .project-card {
-            background: #fff;
-            border: 1px solid var(--border-gray);
-            border-radius: 14px;
-            padding: 18px;
-            box-shadow: 0 10px 28px var(--shadow);
-            text-align: left;
-
-            /* Key fix: make all cards equal height and allow footer to sit consistently */
-            display: flex;
-            flex-direction: column;
-            min-height: 560px;
-        }
-
-        .project-head {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-            margin-bottom: 10px;
-        }
-
-        .tool-icon {
-            width: 42px;
-            height: 42px;
-            border-radius: 12px;
-            background: #f3f4f6;
-            border: 1px solid var(--border-gray);
-            display: grid;
-            place-items: center;
-            font-size: 18px;
-            flex: 0 0 auto;
-        }
-
-        .project-title {
-            font-weight: 800;
-            font-size: 14px;
-            margin-top: 2px;
-        }
-
-        .project-highlight {
-            background: #f9fafb;
-            border: 1px solid var(--border-gray);
-            border-radius: 10px;
-            padding: 12px 12px;
-            font-weight: 600;
-            font-size: 12px;
-            color: #111827;
-            margin: 10px 0 14px;
-        }
-
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            padding: 14px;
-            background: #f9fafb;
-            border: 1px solid var(--border-gray);
-            border-radius: 12px;
-            margin: 0 0 16px;
-        }
-
-        .coming-soon .stats-row,
-        .coming-soon .project-highlight {
-            display: none;
-        }
-
-        .stat-box {
-            background: #fff;
-            border: 1px solid var(--border-gray);
-            border-radius: 10px;
-            padding: 12px 10px;
-            text-align: left;
-        }
-
-        .stat-number {
-            font-weight: 900;
-            font-size: 20px;
-            margin-bottom: 6px;
-        }
-
-        .stat-label {
-            font-size: 10px;
-            color: var(--text-gray);
-            text-transform: none;
-            letter-spacing: 0px;
+        .section-title {
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
             font-weight: 700;
         }
 
-        .features-title {
-            font-weight: 800;
-            font-size: 14px;
-            margin: 12px 0 10px;
+        .section-description {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            line-height: 1.7;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
-        .features-list {
+        /* Projects Section */
+        .projects-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 2rem 4rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            align-items: stretch;
+            grid-auto-rows: 1fr; /* keeps columns visually even-height */
+        }
+
+        .project-card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+
+            /* layout consistency across cards */
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            margin-bottom: 10px;
+            height: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* polished icon chip */
+        .project-icon {
+            font-size: 1.25rem;
+            width: 44px;
+            height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: var(--background-light);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            flex-shrink: 0;
+        }
+
+        .project-title {
+            font-size: 1.35rem;
+            font-weight: 750;
+            color: var(--primary-dark);
+            letter-spacing: -0.2px;
+            line-height: 1.25;
+        }
+
+        .project-subtitle {
+            font-size: 0.98rem;
+            color: var(--text-light);
+            margin-bottom: 1.25rem;
+            line-height: 1.6;
+        }
+
+        /* make the highlight read like a product value line (less "tacky") */
+        .project-highlight {
+            font-size: 0.98rem;
+            color: var(--text-dark);
+            font-weight: 600;
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+            padding: 0.9rem 1rem;
+            background: var(--background-light);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+        }
+
+        .project-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.9rem;
+            margin: 1.25rem 0 1.5rem;
+            padding: 1rem;
+            background: var(--background-light);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+        }
+
+        .project-stats.four-stats {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .stat-item {
+            text-align: left;
+            padding: 0.75rem 0.8rem;
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            display: block;
+            margin-bottom: 0.15rem;
+            letter-spacing: -0.2px;
+        }
+
+        .stat-label {
+            font-size: 0.72rem;
+            color: var(--text-light);
+            text-transform: none;
+            letter-spacing: 0px;
+            line-height: 1.35;
+        }
+
+        .project-features {
+            margin-top: 1.5rem;
+        }
+
+        .features-title {
+            font-size: 1rem;
+            color: var(--primary-dark);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
         }
 
         .feature-item {
             display: flex;
-            gap: 10px;
             align-items: flex-start;
-            font-size: 12px;
-            color: #111827;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            line-height: 1.5;
         }
 
         .feature-check {
             color: var(--accent-green);
-            font-weight: 900;
-            margin-top: 1px;
+            font-weight: 700;
+            flex-shrink: 0;
         }
 
         .disclaimer {
             background: #fff3cd;
             border-left: 4px solid #ffc107;
-            padding: 14px 14px;
-            border-radius: 10px;
-            font-size: 12px;
-            line-height: 1.5;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .disclaimer strong {
+            color: var(--text-dark);
         }
 
         .disclaimer a {
             color: var(--dark-green);
+            font-weight: 600;
             text-decoration: none;
-            font-weight: 800;
         }
 
         .disclaimer a:hover {
             text-decoration: underline;
-        }
-
-        .button-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .demo-button {
-            background: var(--primary-yellow);
-            border: none;
-            border-radius: 12px;
-            padding: 12px 18px;
-            font-weight: 800;
-            font-size: 12px;
-            cursor: pointer;
-            text-decoration: none;
-            color: #111827;
-            display: inline-block;
-        }
-
-        .dataset-button {
-            background: var(--accent-green);
-            color: #fff;
-        }
-
-        .coming-soon {
-            border: 2px dashed var(--border-gray);
-            color: var(--text-gray);
-            background: #fcfcfd;
-        }
-
-        .coming-text {
-            margin-top: 18px;
-            font-size: 12px;
-            line-height: 1.7;
-            color: #6b7280;
         }
 
         /* Card footer: keep disclaimer + actions aligned and avoid large gaps */
@@ -316,223 +323,407 @@
         }
 
         .card-footer .disclaimer {
-            margin: 14px 0 10px; /* tighter gap between disclaimer and buttons */
+            margin: 1.5rem 0 1rem; /* tighter gap between disclaimer and buttons */
         }
 
         .card-footer .button-group {
             margin-top: 0; /* spacing handled by disclaimer */
         }
 
-        /* CTA */
-        .cta {
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .demo-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1.75rem;
+            background: var(--primary-yellow);
+            color: var(--text-dark);
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 2px 8px rgba(254, 240, 138, 0.3);
+        }
+
+        .demo-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(254, 240, 138, 0.5);
+            background: #fde68a;
+        }
+
+        .secondary-button {
+            background: linear-gradient(135deg, var(--accent-green), #059669);
+            color: var(--white);
+        }
+
+        .secondary-button:hover {
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Coming Soon Card */
+        .coming-soon-card {
+            border: 2px dashed var(--border-color);
+            opacity: 0.6;
+        }
+
+        .coming-soon-card:hover {
+            transform: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .coming-soon-title {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .coming-soon-text {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--background-light);
+            padding: 5rem 2rem;
             text-align: center;
-            padding: 46px 24px 64px;
-            max-width: 1200px;
+        }
+
+        .cta-content {
+            max-width: 800px;
             margin: 0 auto;
         }
 
-        .cta h3 {
-            font-size: 32px;
-            font-weight: 800;
-            margin-bottom: 10px;
+        .cta-heading {
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            font-weight: 700;
         }
 
-        .cta p {
-            color: var(--text-gray);
-            max-width: 760px;
-            margin: 0 auto 18px;
-            font-size: 12px;
+        .cta-text {
+            font-size: clamp(1.125rem, 2vw, 1.375rem);
+            color: var(--text-light);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
         }
 
-        .cta .cta-btn {
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 3rem;
             background: var(--primary-yellow);
-            border: none;
-            padding: 14px 22px;
-            border-radius: 12px;
-            font-weight: 800;
-            cursor: pointer;
-            color: #111827;
+            color: var(--text-dark);
             text-decoration: none;
-            display: inline-block;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 16px rgba(254, 240, 138, 0.4);
         }
 
-        /* FOOTER */
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(254, 240, 138, 0.6);
+            background: #fde68a;
+        }
+
+        .cta-icon {
+            font-size: 1.5rem;
+        }
+
+        /* Footer */
         footer {
-            background: #0b0f14;
-            color: rgba(255,255,255,0.8);
+            background: var(--primary-dark);
+            color: var(--white);
             text-align: center;
-            padding: 18px 24px;
-            font-size: 10px;
+            padding: 2rem;
         }
 
-        footer p {
-            margin-top: 6px;
-            color: rgba(255,255,255,0.65);
+        .footer-text {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .project-stats.four-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .logo-text {
+                font-size: 0.95rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .demo-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .project-stats.four-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1025px) {
+            .projects-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .project-stats.four-stats {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    
+
+        .license-credit{
+            display:inline-block;
+            margin-top:8px;
+            font-size:0.85rem;
+            color: var(--text-light);
+        }
+        .license-credit a{
+            color: var(--primary-green);
+            font-weight:600;
+            text-decoration: none;
+        }
+        .license-credit a:hover{
+            text-decoration: underline;
         }
 </style>
 </head>
 <body>
-
-<header>
-  <div class="nav-container">
-    <a class="brand" href="index.html">
-      <img alt="Logo" src="logo.png"/>
-      <span>AI Tools for Kingdom Professionals</span>
-    </a>
-    <nav>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a class="active" href="results.html">Results</a></li>
-        <li><a href="testimonials.html">Testimonials</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<section class="hero">
-  <h1>See AI in Action</h1>
-  <p>Real solutions delivering measurable results for professionals and organisations</p>
+<!-- Navigation -->
+<nav>
+<div class="nav-container">
+<a class="logo" href="index.html">
+<img alt="Logo" class="logo-img" src="logo.svg"/>
+<span class="logo-text">AI Tools for Kingdom Professionals</span>
+</a>
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="services.html">Services</a></li>
+<li><a class="active" href="results.html">Results</a></li>
+<li><a href="testimonials.html">Testimonials</a></li>
+</ul>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="hero-section">
+<h1 class="hero-title">See AI in Action</h1>
+<p class="hero-subtitle">
+            Real solutions delivering measurable results for professionals and organisations
+        </p>
 </section>
-
-<section class="section">
-  <h2>Our Work</h2>
-  <p class="subtext">
-    From intelligence chatbots to advanced text analysis, these projects demonstrate the practicality of ethical AI implementation.
-  </p>
-
-  <div class="projects-grid">
-
-    <!-- 1) News Intelligence Analyser (FIRST) -->
-    <div class="project-card">
-      <div class="project-head">
-        <div class="tool-icon">📰</div>
-        <div class="project-title">News Intelligence Analyser</div>
-      </div>
-
-      <div class="project-highlight">
-        Turn your company's internal reports, emails, or PDFs into searchable intelligence.
-      </div>
-
-      <div class="stats-row">
-        <div class="stat-box">
-          <div class="stat-number">2,225</div>
-          <div class="stat-label">Articles</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">100%</div>
-          <div class="stat-label">Accuracy</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">87</div>
-          <div class="stat-label">Entities</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">5</div>
-          <div class="stat-label">Categories</div>
-        </div>
-      </div>
-
-      <div class="features-title">Key Features</div>
-      <div class="features-list">
-        <div class="feature-item"><span class="feature-check">✓</span><span>Real-time named entity recognition with 100% confidence</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Automatic category &amp; subcategory classification</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Article-specific insights and summaries</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Full-text analysis with word count metrics</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Interactive UI for easy navigation</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Dataset access for performance evaluation</span></div>
-      </div>
-
-      <div class="card-footer">
-        <div class="disclaimer">
-          <strong>⚠️ DEMO ONLY:</strong> Visit
-          <a href="https://www.bbc.com/news" target="_blank">bbc.com/news</a> for current info
-          <br/>
-          <span class="license-credit">
-            License / credits:
-            <a href="https://github.com/Udodirim/News_Intelligence_with_NLP/blob/main/README.TXT" target="_blank">README</a>
-            (source attribution)
-          </span>
-        </div>
-
-        <div class="button-group">
-          <a class="demo-button" href="news_intelligence_analyser_production.html">Launch Demo</a>
-          <a class="demo-button dataset-button" href="#">📊 View Dataset</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2) Nigerian Immigration Visa Chatbot (SECOND) -->
-    <div class="project-card">
-      <div class="project-head">
-        <div class="tool-icon">🤖</div>
-        <div class="project-title">Nigerian Immigration Visa Chatbot</div>
-      </div>
-
-      <div class="project-highlight">
-        Customisable for any sector.
-      </div>
-
-      <div class="stats-row" style="grid-template-columns: repeat(3, 1fr);">
-        <div class="stat-box">
-          <div class="stat-number">100%</div>
-          <div class="stat-label">Query Resolution</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">3</div>
-          <div class="stat-label">Visa Categories</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-number">2 sec</div>
-          <div class="stat-label">Response Time</div>
-        </div>
-      </div>
-
-      <div class="features-title">Key Features</div>
-      <div class="features-list">
-        <div class="feature-item"><span class="feature-check">✓</span><span>Instant answers to visa, passport, and permit queries</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Document requirements and fee breakdowns</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Processing timelines and status updates</span></div>
-        <div class="feature-item"><span class="feature-check">✓</span><span>Reduces staff workload by 60%+</span></div>
-      </div>
-
-      <div class="card-footer">
-        <div class="disclaimer">
-          <strong>⚠️ DEMO ONLY:</strong> For official visa information, visit
-          <a href="https://immigration.gov.ng/" target="_blank">immigration.gov.ng</a>
-        </div>
-
-        <div class="button-group">
-          <a class="demo-button" href="visa-demo.html">Launch Demo</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3) Coming Soon -->
-    <div class="project-card coming-soon">
-      <div class="project-head">
-        <div class="tool-icon">⏳</div>
-        <div class="project-title">Next Project Coming Soon</div>
-      </div>
-      <div class="coming-text">
-        <p>More AI solutions in development.</p>
-        <p>Stay tuned for updates on workflow automation, donor management, and analytics dashboards.</p>
-      </div>
-    </div>
-
-  </div>
+<!-- Section Intro -->
+<section class="section-intro">
+<h2 class="section-title">Our Work</h2>
+<p class="section-description">
+            From intelligence chatbots to advanced text analysis, these projects demonstrate 
+            the practicality of ethical AI Implementation.
+        </p>
 </section>
-
-<section class="cta">
-  <h3>Ready to Transform Your <br/>Operations?</h3>
-  <p>Unlock similar efficiency and insights for your business or organisation. Let’s build custom AI solution together.</p>
-  <a class="cta-btn" href="#">Book a Free 15-Minute Clarity Call</a>
+<!-- Projects Section -->
+<section class="projects-section">
+<div class="projects-grid">
+<!-- News Intelligence Analyser -->
+<div class="project-card">
+<div class="project-header">
+<span class="project-icon">📰</span>
+<h3 class="project-title">News Intelligence Analyser</h3>
+</div>
+<p class="project-highlight">
+                    Turn your company's internal reports, emails, or PDFs into searchable intelligence.
+                </p>
+<!-- Stats Grid -->
+<div class="project-stats four-stats">
+<div class="stat-item">
+<span class="stat-number">2,225</span>
+<span class="stat-label">Articles</span>
+</div>
+<div class="stat-item">
+<span class="stat-number">100%</span>
+<span class="stat-label">Accuracy</span>
+</div>
+<div class="stat-item">
+<span class="stat-number">87</span>
+<span class="stat-label">Entities</span>
+</div>
+<div class="stat-item">
+<span class="stat-number">5</span>
+<span class="stat-label">Categories</span>
+</div>
+</div>
+<!-- Key Features -->
+<div class="project-features">
+<h4 class="features-title">Key Features</h4>
+<div class="feature-list">
+<div class="feature-item">
+<span class="feature-check">✓</span>
+<span>Real-time named entity recognition with 100% confidence</span>
+</div>
+<div class="feature-item">
+<span class="feature-check">✓</span>
+<span>Automatic category &amp; subcategory classification</span>
+</div>
+<div class="feature-item">
+<span class="feature-check">✓</span>
+<span>Article-specific insights and summaries</span>
+</div>
+<div class="feature-item">
+<span class="feature-check">✓</span>
+<span>Full-text analysis with word count metrics</span>
+</div>
+<div class="feature-item">
+<span class="feature-check">✓</span>
+<span>Interactive UI for easy navigation</span>
+</div>
+<div class="feature-item">
+<span class="feature-check">✓</span>
+<span>Dataset access for performance evaluation</span>
+</div>
+</div>
+</div>
+<div class="card-footer">
+<!-- Disclaimer -->
+<div class="disclaimer">
+<strong>⚠️ DEMO ONLY:</strong> Visit 
+                    <a href="https://www.bbc.com/news" target="_blank">bbc.com/news</a> for current info
+<br/><span class="license-credit">License / credits: <a href="https://github.com/Udodirim/News_Intelligence_with_NLP/blob/main/README.TXT" target="_blank">README</a> (source attribution)</span>
+                </div>
+<!-- Demo Buttons -->
+<div class="button-group">
+<a class="demo-button" href="news_intelligence_analyser_production.html">
+                        Launch Demo
+                    </a>
+<a class="demo-button secondary-button" href="https://docs.google.com/spreadsheets/d/1TqSmeerz5C1CTXwhqzOB0Cx4k6IGORfzRSdSoyTpTmk/edit?usp=sharing" target="_blank">
+                        📊 View Dataset
+                    </a>
+</div>
+</div>
+</div>
+<!-- Nigerian Immigration Visa Chatbot -->
+<div class="project-card">
+<div class="project-header">
+<span class="project-icon">🤖</span>
+<h3 class="project-title">Nigerian Immigration Visa Chatbot</h3>
+</div>
+<p class="project-highlight">
+                    Customisable for any sector.
+                </p>
+<!-- Stats Grid -->
+<div class="project-stats">
+<div class="stat-item">
+<span class="stat-number">100%</span>
+<span class="stat-label">Query Resolution</span>
+</div>
+<div class="stat-item">
+<span class="stat-number">3</span>
+<span class="stat-label">Visa Categories</span>
+</div>
+<div class="stat-item">
+<span class="stat-number">2 sec</span>
+<span class="stat-label">Response Time</span>
+</div>
+</div>
+<!-- Key Features -->
+<div class="project-features">
+<h4 class="features-title">Key Features</h4>
+<div class="feature-list">
+<div class="feature-item">
+<span class="feature-check">✓</span>
+<span>Instant answers to visa, passport, and permit queries</span>
+</div>
+<div class="feature-item">
+<span class="feature-check">✓</span>
+<span>Document requirements and fee breakdowns</span>
+</div>
+<div class="feature-item">
+<span class="feature-check">✓</span>
+<span>Processing timelines and status updates</span>
+</div>
+<div class="feature-item">
+<span class="feature-check">✓</span>
+<span>Reduces staff workload by 60%+</span>
+</div>
+</div>
+</div>
+<div class="card-footer">
+<!-- Disclaimer -->
+<div class="disclaimer">
+<strong>⚠️ DEMO ONLY:</strong> For official visa information, visit 
+                    <a href="https://immigration.gov.ng/" target="_blank">immigration.gov.ng</a></div>
+<!-- Demo Button -->
+<div class="button-group">
+<a class="demo-button" href="visa-demo.html">
+                        Launch Demo
+                    </a>
+</div>
+</div>
+</div>
+<!-- Coming Soon Card -->
+<div class="project-card coming-soon-card">
+<div class="project-header">
+<span class="project-icon"></span>
+<h3 class="project-title coming-soon-title">Next Project Coming Soon</h3>
+</div>
+<p class="coming-soon-text">
+                    More AI solutions in development. Stay tuned for updates on workflow automation, 
+                    donor management, and analytics dashboards.
+                </p>
+</div>
+</div>
 </section>
-
+<!-- CTA Section -->
+<section class="cta-section">
+<div class="cta-content">
+<h2 class="cta-heading">Ready to Transform Your Operations?</h2>
+<p class="cta-text">
+                Unlock similar efficiency and insights for your business or organisation. Let's build custom AI solution together.
+            </p>
+<a class="cta-button" href="https://docs.google.com/forms/d/e/1FAIpQLScKPY01L6vFu6w5VyoXUMlxXZc0wKeZ3lAzh9x9q4lZY3ab0g/viewform" target="_blank">
+<span class="cta-icon"></span>
+<span>Book a Free 15-Minute Clarity Call</span>
+</a>
+</div>
+</section>
+<!-- Footer -->
 <footer>
-  <div>© 2025 AI Tools for Kingdom Professionals - Eden Mandate. All rights reserved.</div>
-  <p>Empowering Kingdom Leaders with Ethical AI Solutions</p>
+<div class="footer-text">© 2025 AI Tools for Kingdom Professionals - Eden Mandate. All rights reserved.</div>
+<div class="footer-text" style="margin-top: 0.5rem; font-size: 0.875rem;">Empowering Kingdom Leaders with Ethical AI Solutions</div>
 </footer>
-
 </body>
 </html>
