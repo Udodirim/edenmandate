@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Results - AI Tools for Kingdom Professionals</title>
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results - AI Tools for Kingdom Professionals</title>
+    <style>
         * {
             margin: 0;
             padding: 0;
@@ -150,7 +149,7 @@
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
             align-items: stretch;
-            grid-auto-rows: 1fr; /* keeps columns visually even-height */
+            grid-auto-rows: 1fr;
         }
 
         .project-card {
@@ -160,8 +159,6 @@
             padding: 2rem;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             transition: all 0.3s;
-
-            /* layout consistency across cards */
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -179,7 +176,6 @@
             margin-bottom: 0.75rem;
         }
 
-        /* polished icon chip */
         .project-icon {
             font-size: 1.25rem;
             width: 44px;
@@ -209,7 +205,6 @@
             line-height: 1.6;
         }
 
-        /* make the highlight read like a product value line (less "tacky") */
         .project-highlight {
             font-size: 0.98rem;
             color: var(--text-dark);
@@ -319,17 +314,16 @@
             text-decoration: underline;
         }
 
-        /* Card footer: keep disclaimer + actions aligned and avoid large gaps */
         .card-footer {
-            margin-top: auto; /* pushes footer to the bottom of the card */
+            margin-top: auto;
         }
 
         .card-footer .disclaimer {
-            margin: 1.5rem 0 1rem; /* tighter gap between disclaimer and buttons */
+            margin: 1.5rem 0 1rem;
         }
 
         .card-footer .button-group {
-            margin-top: 0; /* spacing handled by disclaimer */
+            margin-top: 0;
         }
 
         .button-group {
@@ -367,29 +361,6 @@
 
         .secondary-button:hover {
             box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-        }
-
-        /* Coming Soon Card */
-        .coming-soon-card {
-            border: 2px dashed var(--border-color);
-            opacity: 0.6;
-        }
-
-        .coming-soon-card:hover {
-            transform: none;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-
-        .coming-soon-title {
-            font-size: 1.25rem;
-            color: var(--text-light);
-            margin-bottom: 0.5rem;
-        }
-
-        .coming-soon-text {
-            font-size: 0.95rem;
-            color: var(--text-light);
-            line-height: 1.6;
         }
 
         /* CTA Section */
@@ -509,223 +480,302 @@
                 grid-template-columns: repeat(4, 1fr);
             }
         }
-    
 
-        .license-credit{
-            display:inline-block;
-            margin-top:8px;
-            font-size:0.85rem;
+        .license-credit {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 0.85rem;
             color: var(--text-light);
         }
-        .license-credit a{
+
+        .license-credit a {
             color: var(--primary-green);
-            font-weight:600;
+            font-weight: 600;
             text-decoration: none;
         }
-        .license-credit a:hover{
+
+        .license-credit a:hover {
             text-decoration: underline;
         }
-</style>
+    </style>
 </head>
 <body>
-<!-- Navigation -->
-<nav>
-<div class="nav-container">
-<a class="logo" href="index.html">
-<img alt="Logo" class="logo-img" src="logo.svg"/>
-<span class="logo-text">AI Tools for Kingdom Professionals</span>
-</a>
-<ul class="nav-links">
-<li><a href="index.html">Home</a></li>
-<li><a href="services.html">Services</a></li>
-<li><a class="active" href="results.html">Results</a></li>
-<li><a href="testimonials.html">Testimonials</a></li>
-</ul>
-</div>
-</nav>
-<!-- Hero Section -->
-<section class="hero-section">
-<h1 class="hero-title">See AI in Action</h1>
-<p class="hero-subtitle">
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="logo.svg" alt="Logo" class="logo-img">
+                <span class="logo-text">AI Tools for Kingdom Professionals</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="results.html" class="active">Results</a></li>
+                <li><a href="testimonials.html">Testimonials</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <h1 class="hero-title">See AI in Action</h1>
+        <p class="hero-subtitle">
             Real solutions delivering measurable results for professionals and organisations
         </p>
-</section>
-<!-- Section Intro -->
-<section class="section-intro">
-<h2 class="section-title">Our Work</h2>
-<p class="section-description">
+    </section>
+
+    <!-- Section Intro -->
+    <section class="section-intro">
+        <h2 class="section-title">Our Work</h2>
+        <p class="section-description">
             From intelligence chatbots to advanced text analysis, these projects demonstrate 
             the practicality of ethical AI Implementation.
         </p>
-</section>
-<!-- Projects Section -->
-<section class="projects-section">
-<div class="projects-grid">
-<!-- News Intelligence Analyser -->
-<div class="project-card">
-<div class="project-header">
-<span class="project-icon">📰</span>
-<h3 class="project-title">News Intelligence Analyser</h3>
-</div>
-<p class="project-highlight">
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects-section">
+        <div class="projects-grid">
+            
+            <!-- News Intelligence Analyser -->
+            <div class="project-card">
+                <div class="project-header">
+                    <span class="project-icon">📰</span>
+                    <h3 class="project-title">News Intelligence Analyser</h3>
+                </div>
+                <p class="project-highlight">
                     Turn your company's internal reports, emails, or PDFs into searchable intelligence.
                 </p>
-<!-- Stats Grid -->
-<div class="project-stats four-stats">
-<div class="stat-item">
-<span class="stat-number">2,225</span>
-<span class="stat-label">Articles</span>
-</div>
-<div class="stat-item">
-<span class="stat-number">100%</span>
-<span class="stat-label">Accuracy</span>
-</div>
-<div class="stat-item">
-<span class="stat-number">87</span>
-<span class="stat-label">Entities</span>
-</div>
-<div class="stat-item">
-<span class="stat-number">5</span>
-<span class="stat-label">Categories</span>
-</div>
-</div>
-<!-- Key Features -->
-<div class="project-features">
-<h4 class="features-title">Key Features</h4>
-<div class="feature-list">
-<div class="feature-item">
-<span class="feature-check">✓</span>
-<span>Real-time named entity recognition with 100% confidence</span>
-</div>
-<div class="feature-item">
-<span class="feature-check">✓</span>
-<span>Automatic category &amp; subcategory classification</span>
-</div>
-<div class="feature-item">
-<span class="feature-check">✓</span>
-<span>Article-specific insights and summaries</span>
-</div>
-<div class="feature-item">
-<span class="feature-check">✓</span>
-<span>Full-text analysis with word count metrics</span>
-</div>
-<div class="feature-item">
-<span class="feature-check">✓</span>
-<span>Interactive UI for easy navigation</span>
-</div>
-<div class="feature-item">
-<span class="feature-check">✓</span>
-<span>Dataset access for performance evaluation</span>
-</div>
-</div>
-</div>
-<div class="card-footer">
-<!-- Disclaimer -->
-<div class="disclaimer">
-<strong>⚠️ DEMO ONLY:</strong> Visit 
-                    <a href="https://www.bbc.com/news" target="_blank">bbc.com/news</a> for current info
-<br/><span class="license-credit">License / credits: <a href="https://github.com/Udodirim/News_Intelligence_with_NLP/blob/main/README.TXT" target="_blank">README</a> (source attribution)</span>
+
+                <!-- Stats Grid -->
+                <div class="project-stats four-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">2,225</span>
+                        <span class="stat-label">Articles</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Accuracy</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">87</span>
+                        <span class="stat-label">Entities</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Categories</span>
+                    </div>
                 </div>
-<!-- Demo Buttons -->
-<div class="button-group">
-<a class="demo-button" href="news_intelligence_analyser_production.html">
-                        Launch Demo
-                    </a>
-<a class="demo-button secondary-button" href="https://docs.google.com/spreadsheets/d/1TqSmeerz5C1CTXwhqzOB0Cx4k6IGORfzRSdSoyTpTmk/edit?usp=sharing" target="_blank">
-                        📊 View Dataset
-                    </a>
-</div>
-</div>
-</div>
-<!-- Nigerian Immigration Visa Chatbot -->
-<div class="project-card">
-<div class="project-header">
-<span class="project-icon">🤖</span>
-<h3 class="project-title">Nigerian Immigration Visa Chatbot</h3>
-</div>
-<p class="project-highlight">
+
+                <!-- Key Features -->
+                <div class="project-features">
+                    <h4 class="features-title">Key Features</h4>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Real-time named entity recognition with 100% confidence</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Automatic category &amp; subcategory classification</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Article-specific insights and summaries</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Full-text analysis with word count metrics</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Interactive UI for easy navigation</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Dataset access for performance evaluation</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <!-- Disclaimer -->
+                    <div class="disclaimer">
+                        <strong>⚠️ DEMO ONLY:</strong> Visit 
+                        <a href="https://www.bbc.com/news" target="_blank">bbc.com/news</a> for current info
+                        <br><span class="license-credit">License / credits: <a href="https://github.com/Udodirim/News_Intelligence_with_NLP/blob/main/README.TXT" target="_blank">README</a> (source attribution)</span>
+                    </div>
+
+                    <!-- Demo Buttons -->
+                    <div class="button-group">
+                        <a href="news_intelligence_analyser_production.html" class="demo-button">
+                            Launch Demo
+                        </a>
+                        <a href="https://docs.google.com/spreadsheets/d/1TqSmeerz5C1CTXwhqzOB0Cx4k6IGORfzRSdSoyTpTmk/edit?usp=sharing" target="_blank" class="demo-button secondary-button">
+                            📊 View Dataset
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nigerian Immigration Visa Chatbot -->
+            <div class="project-card">
+                <div class="project-header">
+                    <span class="project-icon">🤖</span>
+                    <h3 class="project-title">Nigerian Immigration Visa Chatbot</h3>
+                </div>
+                <p class="project-highlight">
                     Customisable for any sector.
                 </p>
-<!-- Stats Grid -->
-<div class="project-stats">
-<div class="stat-item">
-<span class="stat-number">100%</span>
-<span class="stat-label">Query Resolution</span>
-</div>
-<div class="stat-item">
-<span class="stat-number">3</span>
-<span class="stat-label">Visa Categories</span>
-</div>
-<div class="stat-item">
-<span class="stat-number">2 sec</span>
-<span class="stat-label">Response Time</span>
-</div>
-</div>
-<!-- Key Features -->
-<div class="project-features">
-<h4 class="features-title">Key Features</h4>
-<div class="feature-list">
-<div class="feature-item">
-<span class="feature-check">✓</span>
-<span>Instant answers to visa, passport, and permit queries</span>
-</div>
-<div class="feature-item">
-<span class="feature-check">✓</span>
-<span>Document requirements and fee breakdowns</span>
-</div>
-<div class="feature-item">
-<span class="feature-check">✓</span>
-<span>Processing timelines and status updates</span>
-</div>
-<div class="feature-item">
-<span class="feature-check">✓</span>
-<span>Reduces staff workload by 60%+</span>
-</div>
-</div>
-</div>
-<div class="card-footer">
-<!-- Disclaimer -->
-<div class="disclaimer">
-<strong>⚠️ DEMO ONLY:</strong> For official visa information, visit 
-                    <a href="https://immigration.gov.ng/" target="_blank">immigration.gov.ng</a></div>
-<!-- Demo Button -->
-<div class="button-group">
-<a class="demo-button" href="visa-demo.html">
-                        Launch Demo
-                    </a>
-</div>
-</div>
-</div>
-<!-- Coming Soon Card -->
-<div class="project-card coming-soon-card">
-<div class="project-header">
-<span class="project-icon"></span>
-<h3 class="project-title coming-soon-title">Next Project Coming Soon</h3>
-</div>
-<p class="coming-soon-text">
-                    More AI solutions in development. Stay tuned for updates on workflow automation, 
-                    donor management, and analytics dashboards.
+
+                <!-- Stats Grid -->
+                <div class="project-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Query Resolution</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">3</span>
+                        <span class="stat-label">Visa Categories</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">2 sec</span>
+                        <span class="stat-label">Response Time</span>
+                    </div>
+                </div>
+
+                <!-- Key Features -->
+                <div class="project-features">
+                    <h4 class="features-title">Key Features</h4>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Instant answers to visa, passport, and permit queries</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Document requirements and fee breakdowns</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Processing timelines and status updates</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Reduces staff workload by 60%+</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <!-- Disclaimer -->
+                    <div class="disclaimer">
+                        <strong>⚠️ DEMO ONLY:</strong> For official visa information, visit 
+                        <a href="https://immigration.gov.ng/" target="_blank">immigration.gov.ng</a>
+                    </div>
+
+                    <!-- Demo Button -->
+                    <div class="button-group">
+                        <a href="visa-demo.html" class="demo-button">
+                            Launch Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SmartCRM with CompanyBrain AI -->
+            <div class="project-card">
+                <div class="project-header">
+                    <span class="project-icon">🏛️</span>
+                    <h3 class="project-title">SmartCRM with CompanyBrain AI</h3>
+                </div>
+                <p class="project-highlight">
+                    Intelligent assistant for real-time CRM data access.
                 </p>
-</div>
-</div>
-</section>
-<!-- CTA Section -->
-<section class="cta-section">
-<div class="cta-content">
-<h2 class="cta-heading">Ready to Transform Your Operations?</h2>
-<p class="cta-text">
+
+                <!-- Stats Grid -->
+                <div class="project-stats four-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">8</span>
+                        <span class="stat-label">Active Orders</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">6</span>
+                        <span class="stat-label">Clients</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">5</span>
+                        <span class="stat-label">Pending Tasks</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">$41K</span>
+                        <span class="stat-label">Revenue MTD</span>
+                    </div>
+                </div>
+
+                <!-- Key Features -->
+                <div class="project-features">
+                    <h4 class="features-title">Key Features</h4>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Real-time order tracking and status updates</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Natural language queries for CRM data</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Automated customer onboarding SOP access</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Comprehensive dashboard for service and production orders</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-check">✓</span>
+                            <span>Instant access to client-specific order history</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <!-- Disclaimer -->
+                    <div class="disclaimer">
+                        <strong>⚠️ DEMO ONLY:</strong> This is a demonstration showcasing AI-powered CRM capabilities
+                    </div>
+
+                    <!-- Demo Button -->
+                    <div class="button-group">
+                        <a href="smartcrm-companybrain-demo.html" class="demo-button">
+                            Launch Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="cta-heading">Ready to Transform Your Operations?</h2>
+            <p class="cta-text">
                 Unlock similar efficiency and insights for your business or organisation. Let's build custom AI solution together.
             </p>
-<a class="cta-button" href="https://docs.google.com/forms/d/e/1FAIpQLScKPY01L6vFu6w5VyoXUMlxXZc0wKeZ3lAzh9x9q4lZY3ab0g/viewform" target="_blank">
-<span class="cta-icon"></span>
-<span>Book a Free 15-Minute Clarity Call</span>
-</a>
-</div>
-</section>
-<!-- Footer -->
-<footer>
-<div class="footer-text">© 2025 AI Tools for Kingdom Professionals - Eden Mandate. All rights reserved.</div>
-<div class="footer-text" style="margin-top: 0.5rem; font-size: 0.875rem;">Empowering Kingdom Leaders with Ethical AI Solutions</div>
-</footer>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScKPY01L6vFu6w5VyoXUMlxXZc0wKeZ3lAzh9x9q4lZY3ab0g/viewform" target="_blank" class="cta-button">
+                <span class="cta-icon"></span>
+                <span>Book a Free 15-Minute Clarity Call</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-text">© 2025 AI Tools for Kingdom Professionals - Eden Mandate. All rights reserved.</div>
+        <div class="footer-text" style="margin-top: 0.5rem; font-size: 0.875rem;">Empowering Kingdom Leaders with Ethical AI Solutions</div>
+    </footer>
 </body>
 </html>
