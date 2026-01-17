@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartCRM with CompanyBrain AI - Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0e27;
+            --bg-secondary: #141937;
+            --accent-primary: #667eea;
+            --accent-secondary: #764ba2;
+            --accent-cyan: #00d9ff;
+            --accent-purple: #a855f7;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --glow-primary: rgba(102, 126, 234, 0.4);
+            --glow-cyan: rgba(0, 217, 255, 0.4);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 10px var(--glow-cyan));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .header-title {
+            font-size: clamp(1.75rem, 4vw, 2.5rem);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 20px var(--glow-cyan);
+        }
+
+        .header-description {
+            font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.7;
+            color: var(--text-secondary);
+        }
+
+        .mode-toggle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .toggle-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .toggle-switch {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 0.25rem;
+            gap: 0.25rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .toggle-option {
+            padding: 0.5rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .toggle-option.active {
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: var(--text-primary);
+            box-shadow: 0 4px 20px var(--glow-primary);
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 60% 40%;
+            min-height: calc(100vh - 350px);
+            gap: 0;
+            flex: 1;
+        }
+
+        .ai-section {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            padding: 1rem;
+        }
+
+        .ai-header {
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px 16px 0 0;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            opacity: 0.1;
+        }
+
+        .ai-header-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .ai-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .ai-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .clear-btn {
+            position: relative;
+            z-index: 1;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .clear-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            box-shadow: 0 4px 15px var(--glow-cyan);
+        }
+
+        .welcome-message {
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 16px;
+            margin: 1rem;
+            box-shadow: 0 0 30px var(--glow-cyan);
+            animation: welcome-glow 2s ease-in-out infinite;
+        }
+
+        @keyframes welcome-glow {
+            0%, 100% { box-shadow: 0 0 20px var(--glow-cyan); }
+            50% { box-shadow: 0 0 40px var(--glow-cyan); }
+        }
+
+        .welcome-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .access-list {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .access-list li {
+            padding: 0.25rem 0;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .access-list li::before {
+            content: "✓ ";
+            color: var(--accent-cyan);
+            font-weight: 700;
+            margin-right: 0.5rem;
+        }
+
+        .sample-questions {
+            padding: 1rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-top: none;
+        }
+
+        .questions-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .question-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .question-btn {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 0.75rem;
+            border-radius: 12px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .question-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-cyan));
+            transform: scaleY(0);
+            transition: transform 0.3s;
+        }
+
+        .question-btn:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 4px 20px var(--glow-primary);
+            transform: translateX(8px);
+        }
+
+        .question-btn:hover::before {
+            transform: scaleY(1);
+        }
+
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-top: none;
+            border-bottom: none;
+        }
+
+        .chat-message {
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .message-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .message-content {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .message-content.user-message {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: var(--accent-primary);
+        }
+
+        .message-content.ai-message {
+            background: rgba(0, 217, 255, 0.05);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.1);
+        }
+
+        .message-text {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .source-attribution {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--glass-border);
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            font-style: italic;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            padding: 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+            box-shadow: 0 0 10px var(--glow-cyan);
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { 
+                transform: translateY(0);
+                opacity: 0.7;
+            }
+            30% { 
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        .input-area {
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 0 0 16px 16px;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            transition: all 0.3s;
+        }
+
+        .chat-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px var(--glow-primary);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .send-btn {
+            padding: 0.875rem 1.5rem;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+            color: var(--text-primary);
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px var(--glow-primary);
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px var(--glow-primary);
+        }
+
+        .send-btn:active {
+            transform: translateY(0);
+        }
+
+        .crm-section {
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 1.25rem;
+            border-radius: 16px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-cyan));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px var(--glow-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .orders-section {
+            padding: 0 1rem 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            padding-left: 0.5rem;
+        }
+
+        .order-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .order-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-cyan));
+            border-radius: 16px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.4s;
+        }
+
+        .order-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 16px 48px rgba(102, 126, 234, 0.3);
+        }
+
+        .order-card:hover::before {
+            opacity: 0.3;
+        }
+
+        .order-card.highlighted {
+            animation: glow-pulse 2s ease-in-out infinite;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 30px var(--glow-cyan);
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px var(--glow-cyan); }
+            50% { box-shadow: 0 0 40px var(--glow-cyan), 0 0 60px var(--glow-primary); }
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 0.75rem;
+        }
+
+        .order-id {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .order-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+        }
+
+        .status-shipping { 
+            color: #60a5fa; 
+            border-color: rgba(96, 165, 250, 0.3);
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.2);
+        }
+        .status-production { 
+            color: #fbbf24; 
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.2);
+        }
+        .status-delivered { 
+            color: #34d399; 
+            border-color: rgba(52, 211, 153, 0.3);
+            box-shadow: 0 0 10px rgba(52, 211, 153, 0.2);
+        }
+        .status-completed { 
+            color: #a78bfa; 
+            border-color: rgba(167, 139, 250, 0.3);
+            box-shadow: 0 0 10px rgba(167, 139, 250, 0.2);
+        }
+        .status-progress { 
+            color: #fb923c; 
+            border-color: rgba(251, 146, 60, 0.3);
+            box-shadow: 0 0 10px rgba(251, 146, 60, 0.2);
+        }
+        .status-scheduled { 
+            color: #c084fc; 
+            border-color: rgba(192, 132, 252, 0.3);
+            box-shadow: 0 0 10px rgba(192, 132, 252, 0.2);
+        }
+
+        .order-customer {
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .order-details {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .order-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            padding-top: 0.5rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .order-amount {
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+
+        .order-delivery {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .delivery-icon {
+            font-size: 0.9rem;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-primary);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-cyan);
+        }
+
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .ai-section {
+                height: 600px;
+            }
+
+            .crm-section {
+                max-height: 500px;
+            }
+
+            .footer {
+                padding: 1.5rem 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .toggle-option {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(20, 25, 55, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            text-align: center;
+            width: 100%;
+            margin-top: 2rem;
+            clear: both;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .footer-divider {
+            color: var(--accent-cyan);
+            margin: 0 0.75rem;
+        }
+
+        .footer-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .footer-link:hover {
+            color: var(--text-primary);
+            text-shadow: 0 0 10px var(--glow-cyan);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section">
+            <span class="logo-icon">🏛️</span>
+            <div>
+                <h1 class="header-title">SmartCRM with CompanyBrain AI</h1>
+            </div>
+        </div>
+        <p class="header-subtitle">Turn scattered information into clarity.</p>
+        <p class="header-description">
+            CompanyBrain AI is a chat-style assistant that pulls answers from your internal systems — 
+            customer records, emails, meeting notes, and operational plans — so every employee can 
+            respond like an expert from day one.
+        </p>
+    </header>
+
+    <div class="mode-toggle">
+        <span class="toggle-label">View as:</span>
+        <div class="toggle-switch">
+            <div class="toggle-option active" data-mode="experienced">Experienced Employee</div>
+            <div class="toggle-option" data-mode="new">New Employee (First Day)</div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="ai-section">
+            <div class="ai-header">
+                <div class="ai-header-content">
+                    <div class="ai-title">💬 CompanyBrain AI</div>
+                    <div class="ai-subtitle">Your intelligent assistant</div>
+                </div>
+                <button class="clear-btn" id="clear-chat-btn">🗑️ Clear Chat</button>
+            </div>
+
+            <div id="welcome-message" class="welcome-message" style="display: none;">
+                <div class="welcome-icon">👋</div>
+                <div class="welcome-title">Hello brilliant teammate!</div>
+                <p class="welcome-text">
+                    It's your first day! I'm CompanyBrain AI, your intelligent assistant.
+                </p>
+                <ul class="access-list">
+                    <li>Customer records</li>
+                    <li>Order history</li>
+                    <li>Team SOPs</li>
+                    <li>Meeting notes</li>
+                    <li>Project details</li>
+                </ul>
+                <p class="welcome-text" style="margin-bottom: 0;">
+                    💡 <strong>Quick Start:</strong> Ask me anything to get up to speed!
+                </p>
+            </div>
+
+            <div class="sample-questions">
+                <div class="questions-title">Ask me anything:</div>
+                <div class="question-buttons" id="sample-questions"></div>
+            </div>
+
+            <div class="chat-area" id="chat-area">
+                <div class="chat-message">
+                    <div class="message-label">CompanyBrain AI</div>
+                    <div class="message-content ai-message">
+                        <div class="message-text">Hello! I'm CompanyBrain AI. Click a sample question or type the sample question to see how I can help you access information instantly.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <div class="input-container">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Type your question...">
+                    <button class="send-btn" id="send-btn">Send</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="crm-section">
+            <div class="section-header">
+                <h2 class="section-title">📊 CRM Dashboard</h2>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Active Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">Clients</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Pending Tasks</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$41K</div>
+                    <div class="stat-label">Revenue MTD</div>
+                </div>
+            </div>
+
+            <div class="orders-section">
+                <h3 class="section-subtitle">Recent Orders</h3>
+                <div id="orders-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">
+            © 2026 SmartCRM with CompanyBrain AI Demo <span class="footer-divider">|</span> Built by <span class="footer-link">Eden Mandate AI Tools</span>
+        </p>
+    </footer>
+
+    <script>
+        const sampleData = {
+            customers: [
+                { id: 1, name: "Grace Footwear Ltd", contact: "Grace Okafor", type: "Product" },
+                { id: 2, name: "Emmanuel Sports", contact: "Emmanuel Adisa", type: "Product" },
+                { id: 3, name: "Kingdom Apparel", contact: "Sarah Nwosu", type: "Product" },
+                { id: 4, name: "Foundation", contact: "Tolu", type: "Service" },
+                { id: 5, name: "Training Materials", contact: "Pastor James", type: "Service" },
+                { id: 6, name: "Faith Consulting Group", contact: "Ruth Mensah", type: "Service" }
+            ],
+            orders: [
+                { id: 1001, customerId: 1, customer: "Grace Footwear Ltd", item: "Custom Shoes (50 pairs)", amount: 4500, status: "Shipping", type: "Product", date: "Nov 28, 2025", deliveryDate: "Dec 5, 2025" },
+                { id: 1002, customerId: 2, customer: "Emmanuel Sports", item: "Equipment Set", amount: 3200, status: "Production", type: "Product", date: "Dec 1, 2025", expectedShipping: "Dec 8, 2025", deliveryDate: "Dec 12, 2025" },
+                { id: 1003, customerId: 1, customer: "Grace Footwear Ltd", item: "Sandals (100 pairs)", amount: 6800, status: "Delivered", type: "Product", date: "Nov 20, 2025", deliveryDate: "Nov 27, 2025" },
+                { id: 1004, customerId: 3, customer: "Kingdom Apparel", item: "T-Shirts (200 units)", amount: 5000, status: "Production", type: "Product", date: "Dec 3, 2025", expectedShipping: "Dec 10, 2025", deliveryDate: "Dec 14, 2025" },
+                { id: 2001, customerId: 4, customer: "Foundation", item: "Donor Management Setup", amount: 8000, status: "In Progress", type: "Service", date: "Nov 25, 2025", deliveryDate: "Dec 30, 2025" },
+                { id: 2002, customerId: 5, customer: "Training Materials", item: "Workshop Facilitation", amount: 3500, status: "Scheduled", type: "Service", date: "Dec 2, 2025", deliveryDate: "Dec 9, 2025" },
+                { id: 2003, customerId: 6, customer: "Faith Consulting Group", item: "Strategy Session", amount: 5000, status: "Completed", type: "Service", date: "Nov 15, 2025", deliveryDate: "Nov 22, 2025" },
+                { id: 2004, customerId: 4, customer: "Foundation", item: "Database Migration", amount: 6500, status: "In Progress", type: "Service", date: "Nov 29, 2025", deliveryDate: "Dec 20, 2025" }
+            ]
+        };
+
+        const experiencedQuestions = [
+            "Show me all orders for Grace Footwear",
+            "What's the status of Order #1001?",
+            "Which orders are in production?",
+            "Show all service orders",
+            "What's our customer onboarding SOP?"
+        ];
+
+        const newEmployeeQuestions = [
+            "I have a strategic teams meeting tomorrow, what should I know?",
+            "What's our process for handling customer orders?",
+            "Tell me about Grace Footwear",
+            "What did we discuss about Foundation project?",
+            "What should I do if a production order is delayed?"
+        ];
+
+        const aiResponses = {
+            grace_footwear_orders: {
+                text: `Grace Footwear has 2 orders:
+
+📦 Order #1001
+   • Product: Custom Shoes (50 pairs)
+   • Amount: $4,500
+   • Status: Shipping
+   • Order Date: November 28, 2025
+   • Expected Delivery: December 5, 2025
+
+📦 Order #1003
+   • Product: Sandals (100 pairs)
+   • Amount: $6,800
+   • Status: Delivered
+   • Delivery Date: November 27, 2025
+
+Total value: $11,300
+Contact: Grace Okafor`,
+                source: "CRM Orders Database",
+                highlight: [1001, 1003]
+            },
+            order_1001_status: {
+                text: `Order #1001 - Current Status: Shipping
+
+📦 Order Details:
+• Customer: Grace Footwear Ltd
+• Contact: Grace Okafor
+• Product: Custom Shoes (50 pairs)
+• Amount: $4,500
+• Order Date: November 28, 2025
+• Current Status: Shipping
+
+📍 Shipping Information:
+• Prepared for dispatch: December 2, 2025
+• Expected delivery: December 5, 2025
+• Tracking will be emailed to customer
+
+💼 Account Manager: Sarah`,
+                source: "CRM Orders Database + Shipping System",
+                highlight: [1001]
+            },
+            production_orders: {
+                text: `Current orders in production:
+
+📦 Order #1002
+   • Customer: Emmanuel Sports
+   • Product: Equipment Set
+   • Amount: $3,200
+   • Started: December 1, 2025
+   • Expected Shipping: December 8, 2025
+   • Expected Delivery: December 12, 2025
+
+📦 Order #1004
+   • Customer: Kingdom Apparel
+   • Product: T-Shirts (200 units)
+   • Amount: $5,000
+   • Started: December 3, 2025
+   • Expected Shipping: December 10, 2025
+   • Expected Delivery: December 14, 2025
+
+Total in production: 2 orders ($8,200)
+Production team: On schedule`,
+                source: "CRM Orders Database + Production System",
+                highlight: [1002, 1004]
+            },
+            service_orders: {
+                text: `Active Service Orders:
+
+💼 Order #2001
+   • Customer: Foundation
+   • Service: Donor Management Setup
+   • Amount: $8,000
+   • Status: In Progress
+   • Lead: Emmanuel
+   • Delivery Date: December 30, 2025
+
+💼 Order #2002
+   • Customer: Training Materials
+   • Service: Workshop Facilitation
+   • Amount: $3,500
+   • Status: Scheduled
+   • Service Date: December 9, 2025
+
+💼 Order #2003
+   • Customer: Faith Consulting Group
+   • Service: Strategy Session
+   • Amount: $5,000
+   • Status: Completed ✓
+   • Delivered: November 22, 2025
+
+💼 Order #2004
+   • Customer: Foundation
+   • Service: Database Migration
+   • Amount: $6,500
+   • Status: In Progress
+   • Lead: Emmanuel
+   • Delivery Date: December 20, 2025
+
+Total service revenue: $23,000`,
+                source: "CRM Orders Database",
+                highlight: [2001, 2002, 2003, 2004]
+            },
+            onboarding_sop: {
+                text: `Customer Onboarding SOP
+
+📋 Process Steps:
+1. Initial contact within 24 hours
+2. Schedule discovery call
+3. Send welcome packet (pricing, terms, timeline)
+4. Create customer profile in CRM
+5. Assign account manager
+6. Set up first order
+7. Schedule 30-day check-in
+
+👥 Key Contacts:
+• Account Managers:
+  - Grace (Product orders)
+  - Sarah (Service orders)
+• Billing: accounts@company.com
+
+⏱️ Timeline: Complete within 48 hours of first contact
+
+💡 Best Practice: Personalize welcome packet based on industry and customer needs
+
+Last Updated: November 2025
+Department: Customer Relations`,
+                source: "SOPs Library - Customer Onboarding",
+                highlight: []
+            },
+            strategic_teams_meeting: {
+                text: `Welcome! Here's what you need for tomorrow's Strategic Teams meeting:
+
+📅 Last Strategic Teams Meeting (November 22, 2025)
+
+🎯 Key Priorities:
+• Expand service offerings (training/consulting)
+• Target: 20% revenue growth in Q4
+• Focus on nonprofits/Kingdom organizations
+• Launch donor management module by mid-December
+
+👥 Who's Leading What:
+• Grace: Product line expansion roadmap
+• Emmanuel: Nonprofit market research
+• Sarah: Marketing strategy
+• All teams: Progress review Dec 15
+
+💰 Budget Decisions:
+• $15K approved for marketing campaign
+• Investment in donor management pilot
+
+📝 Upcoming Deliverables:
+• Grace: Product roadmap (Due: Dec 5)
+• Emmanuel: Market research report (Due: Dec 10)
+• Sarah: Marketing strategy (Due: Dec 7)
+
+💡 Pro Tip: Review Emmanuel's market research before the meeting. The nonprofit sector is a key growth area for us.
+
+Next Strategic Meeting: December 15, 2025`,
+                source: "Meeting Notes - Strategic Teams Planning (Nov 22, 2025)",
+                highlight: []
+            },
+            order_processing: {
+                text: `Order Processing SOP
+
+📋 Workflow Steps:
+
+1️⃣ Customer Relations receives order
+   • Log in CRM immediately
+   • Verify customer details
+
+2️⃣ Production team verifies specs & timeline
+   • Check inventory/materials
+   • Confirm feasibility
+
+3️⃣ Check inventory/materials
+   • Ensure all components available
+   • Order if needed (2-week lead time)
+
+4️⃣ Create production schedule
+   • Assign team members
+   • Set milestones
+
+5️⃣ Update CRM: "In Production"
+   • Notify customer of start date
+   • Set expected completion
+
+6️⃣ Quality check before completion
+   • Follow quality checklist
+   • Document any issues
+
+7️⃣ Update CRM: "Ready for Shipping"
+   • Notify Shipping team
+   • Prepare documentation
+
+⏱️ Standard Timelines:
+• Product orders: 7-10 days
+• Service orders: 2-5 days
+
+📞 Key Contacts:
+• Production Lead: [Name]
+• Quality Control: [Name]
+• Shipping Coordinator: [Name]
+
+Last Updated: November 2025
+Department: Production`,
+                source: "SOPs Library - Order Processing",
+                highlight: []
+            },
+            grace_footwear_profile: {
+                text: `Grace Footwear Ltd - Customer Profile
+
+👤 Primary Contact: Grace Okafor
+📧 Email: grace@gracefootwear.com
+🏢 Industry: Manufacturing (Retail client)
+📅 Customer Since: 2024
+
+📊 Order History:
+• Order #1001: Custom Shoes (50 pairs) - $4,500 - Shipping (Delivery: Dec 5)
+• Order #1003: Sandals (100 pairs) - $6,800 - Delivered (Nov 27)
+• Total Value: $11,300
+
+⭐ Customer Feedback (November 20, 2025 Meeting):
+"The shoes are excellent quality. Our customers love them. We'd like to increase order frequency if you can reduce production time from 10 days to 7 days."
+
+🎯 Current Opportunities:
+• Interested in bulk discount for 100+ pairs
+• Wants faster turnaround (7 days vs 10)
+• Planning to increase order frequency
+
+📋 Next Actions:
+• Sarah to send bulk pricing proposal (Due: Nov 25)
+• Production team evaluating 7-day timeline feasibility
+• Quarterly check-in scheduled
+
+💼 Account Manager: Sarah
+📞 Status: Priority Client - High Satisfaction`,
+                source: "CRM Customer Database + Meeting Notes (Nov 20, 2025)",
+                highlight: [1001, 1003]
+            },
+            foundation_project: {
+                text: `Foundation - Donor Management Project
+
+📋 Project Overview:
+• Client: Foundation
+• Contact: Tolu
+• Project Value: $8,000 (Order #2001)
+• Status: In Progress
+• Project Lead: Emmanuel
+
+🎯 Project Scope (From Kickoff Meeting - Nov 24, 2025):
+• Migrate 245 donors from Excel to CRM
+• Set up automated donor communications
+• Create donation tracking dashboard
+• Conduct staff training (3 sessions)
+
+📅 Timeline:
+• Week 1-2: Data migration & validation (Current Phase)
+• Week 3: Dashboard setup & customization
+• Week 4: Staff training sessions
+• Week 5: Go-live support
+• Project Deadline: December 30, 2025
+
+🔑 Client Requirements:
+• Tax receipt automation (Priority)
+• Monthly giving tracking
+• Integration with accounting software
+• Must handle 245+ donors
+
+💰 Budget: $8,000
+   Already allocated: $3,500 (40%)
+   Remaining: $4,500
+
+📝 Recent Project Notes:
+• Data migration started November 26
+• Client very responsive and engaged
+• Additional project (Database Migration - $6,500) also in progress
+
+Next Client Meeting: December 5, 2025
+Purpose: Review migration progress & dashboard mockups`,
+                source: "CRM Project Database + Meeting Notes (Nov 24, 2025)",
+                highlight: [2001, 2004]
+            },
+            production_delay_protocol: {
+                text: `Production Delay Protocol SOP
+
+⚠️ When to Activate This Protocol:
+• Any delay over 48 hours
+• Customer-specific timeline at risk
+• Materials unavailable for >24 hours
+
+📋 Step-by-Step Process:
+
+1️⃣ Assess the Situation
+   • Identify delay reason
+   • Calculate new realistic timeline
+   • Determine impact on other orders
+
+2️⃣ Notify Customer Relations IMMEDIATELY
+   • Don't wait to confirm details
+   • Quick communication is key
+   • Use CRM notification system
+
+3️⃣ Update Order Notes in CRM
+   • Document delay reason
+   • Note new expected completion
+   • Flag as "Delayed" status
+
+4️⃣ Customer Relations Contacts Client
+   • Within 2 hours of notification
+   • Provide honest timeline
+   • Offer solutions/alternatives
+
+5️⃣ Document Resolution in CRM
+   • Client response
+   • Agreed timeline
+   • Any compensation offered
+
+6️⃣ Escalate if Delay Exceeds 7 Days
+   • Notify Production Manager
+   • Include Management team
+   • Develop recovery plan
+
+📞 Emergency Contacts:
+• Customer Relations Lead: [Extension 101]
+• Production Manager: [Extension 202]
+• Management (>7 days): [Extension 300]
+
+💡 Pro Tips:
+• Better to over-communicate than under-communicate
+• Update CRM immediately (team visibility!)
+• Offer discount/expedited shipping if appropriate
+
+⏰ Response Time Standards:
+• Internal notification: Immediate
+• Customer notification: Within 2 hours
+• Management escalation: If >7 days
+
+Last Updated: November 2025
+Department: Production`,
+                source: "SOPs Library - Production Delays Protocol",
+                highlight: []
+            }
+        };
+
+        const modeToggles = document.querySelectorAll('.toggle-option');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const sampleQuestionsContainer = document.getElementById('sample-questions');
+        const ordersListContainer = document.getElementById('orders-list');
+        const chatArea = document.getElementById('chat-area');
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const clearChatBtn = document.getElementById('clear-chat-btn');
+
+        let currentMode = 'experienced';
+
+        function init() {
+            renderOrders();
+            renderSampleQuestions();
+            setupEventListeners();
+        }
+
+        function renderOrders() {
+            const activeOrders = sampleData.orders.filter(order => 
+                order.status !== 'Delivered' && order.status !== 'Completed'
+            );
+
+            ordersListContainer.innerHTML = activeOrders.map(order => {
+                const statusClass = order.status.toLowerCase().replace(' ', '-');
+                
+                let deliveryInfo = '';
+                if (order.status === 'Shipping') {
+                    deliveryInfo = `<div class="order-delivery"><span class="delivery-icon">🚚</span> Expected: ${order.deliveryDate}</div>`;
+                } else if (order.status === 'Production') {
+                    deliveryInfo = `<div class="order-delivery"><span class="delivery-icon">📅</span> Ship: ${order.expectedShipping} | Delivery: ${order.deliveryDate}</div>`;
+                } else if (order.deliveryDate) {
+                    deliveryInfo = `<div class="order-delivery"><span class="delivery-icon">📅</span> Expected: ${order.deliveryDate}</div>`;
+                }
+                
+                return `
+                    <div class="order-card" data-order-id="${order.id}">
+                        <div class="order-header">
+                            <div class="order-id">Order #${order.id}</div>
+                            <div class="order-status status-${statusClass}">${order.status}</div>
+                        </div>
+                        <div class="order-customer">${order.customer}</div>
+                        <div class="order-details">${order.item}</div>
+                        ${deliveryInfo}
+                        <div class="order-meta">
+                            <span>${order.date}</span>
+                            <span class="order-amount">$${order.amount.toLocaleString()}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderSampleQuestions() {
+            const questions = currentMode === 'new' ? newEmployeeQuestions : experiencedQuestions;
+            sampleQuestionsContainer.innerHTML = questions.map(q => 
+                `<button class="question-btn">${q}</button>`
+            ).join('');
+        }
+
+        function setupEventListeners() {
+            modeToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    modeToggles.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    currentMode = this.getAttribute('data-mode');
+                    if (currentMode === 'new') {
+                        welcomeMessage.style.display = 'block';
+                    } else {
+                        welcomeMessage.style.display = 'none';
+                    }
+                    renderSampleQuestions();
+                });
+            });
+
+            sampleQuestionsContainer.addEventListener('click', (e) => {
+                if (e.target.classList.contains('question-btn')) {
+                    handleQuestion(e.target.textContent);
+                }
+            });
+
+            sendBtn.addEventListener('click', () => {
+                const question = chatInput.value.trim();
+                if (question) {
+                    handleQuestion(question);
+                    chatInput.value = '';
+                }
+            });
+
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendBtn.click();
+                }
+            });
+
+            clearChatBtn.addEventListener('click', () => {
+                clearChat();
+            });
+        }
+
+        function clearChat() {
+            chatArea.innerHTML = `
+                <div class="chat-message">
+                    <div class="message-label">CompanyBrain AI</div>
+                    <div class="message-content ai-message">
+                        <div class="message-text">Hello! I'm CompanyBrain AI. Click a sample question or type the sample question to see how I can help you access information instantly.</div>
+                    </div>
+                </div>
+            `;
+            
+            document.querySelectorAll('.order-card').forEach(card => {
+                card.classList.remove('highlighted');
+            });
+
+            chatInput.value = '';
+        }
+
+        function handleQuestion(question) {
+            addMessage('user', question);
+            showTypingIndicator();
+
+            setTimeout(() => {
+                removeTypingIndicator();
+                const response = getAIResponse(question);
+                addMessage('ai', response.text, response.source);
+                
+                if (response.highlight && response.highlight.length > 0) {
+                    highlightOrders(response.highlight);
+                }
+            }, 1500);
+        }
+
+        function getAIResponse(question) {
+            const q = question.toLowerCase().trim();
+            
+            if (q.includes('grace footwear') || (q.includes('grace') && q.includes('order'))) {
+                if (q.includes('show') || q.includes('all') || q.includes('order')) {
+                    return aiResponses.grace_footwear_orders;
+                }
+            }
+            
+            if (q.includes('1001') || q.includes('#1001')) {
+                return aiResponses.order_1001_status;
+            }
+            
+            if (q.includes('production')) {
+                if (q.includes('which') || q.includes('show') || q.includes('order')) {
+                    return aiResponses.production_orders;
+                }
+            }
+            
+            if (q.includes('service') && q.includes('order')) {
+                return aiResponses.service_orders;
+            }
+            
+            if (q.includes('onboarding') || (q.includes('customer') && q.includes('sop'))) {
+                return aiResponses.onboarding_sop;
+            }
+            
+            if (q.includes('strategic') || q.includes('teams meeting') || q.includes('meeting tomorrow')) {
+                return aiResponses.strategic_teams_meeting;
+            }
+            
+            if ((q.includes('process') && q.includes('handling')) || (q.includes('process') && q.includes('order'))) {
+                return aiResponses.order_processing;
+            }
+            
+            if (q.includes('grace') && (q.includes('tell') || q.includes('about'))) {
+                return aiResponses.grace_footwear_profile;
+            }
+            
+            if (q.includes('foundation') && (q.includes('discuss') || q.includes('project'))) {
+                return aiResponses.foundation_project;
+            }
+            
+            if (q.includes('delay') || q.includes('delayed')) {
+                return aiResponses.production_delay_protocol;
+            }
+
+            return {
+                text: `I understand you're asking about: "${question}"\n\nI can help you with:\n• Customer and order information\n• Meeting notes and SOPs\n• Team processes and workflows\n• Project details and timelines\n\nTry asking one of the sample questions above, or rephrase your question.`,
+                source: "CompanyBrain AI",
+                highlight: []
+            };
+        }
+
+        function addMessage(type, text, source = null) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'chat-message';
+            
+            const label = type === 'user' ? 'You' : 'CompanyBrain AI';
+            const messageClass = type === 'user' ? 'user-message' : 'ai-message';
+            
+            let sourceHTML = '';
+            if (source) {
+                sourceHTML = `<div class="source-attribution">📚 Source: ${source}</div>`;
+            }
+            
+            messageDiv.innerHTML = `
+                <div class="message-label">${label}</div>
+                <div class="message-content ${messageClass}">
+                    <div class="message-text">${text}</div>
+                    ${sourceHTML}
+                </div>
+            `;
+            
+            chatArea.appendChild(messageDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const indicator = document.createElement('div');
+            indicator.id = 'typing-indicator';
+            indicator.className = 'chat-message';
+            indicator.innerHTML = `
+                <div class="message-label">CompanyBrain AI</div>
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <span style="margin-left: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">Thinking...</span>
+                </div>
+            `;
+            chatArea.appendChild(indicator);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) {
+                indicator.remove();
+            }
+        }
+
+        function highlightOrders(orderIds) {
+            document.querySelectorAll('.order-card').forEach(card => {
+                card.classList.remove('highlighted');
+            });
+
+            orderIds.forEach(id => {
+                const card = document.querySelector(`[data-order-id="${id}"]`);
+                if (card) {
+                    card.classList.add('highlighted');
+                    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            });
+        }
+
+        init();
+    </script>
+</body>
+</html>
