@@ -145,11 +145,11 @@
         }
 
         .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            display: flex;
+            flex-direction: column;
             gap: 2rem;
-            align-items: stretch;
-            grid-auto-rows: 1fr;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .project-card {
@@ -161,7 +161,9 @@
             transition: all 0.3s;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            flex: 1 1 100%;
+            width: 100%;
+            max-width: 100%;
         }
 
         .project-card:hover {
@@ -220,7 +222,7 @@
         .project-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 0.9rem;
+            gap: 1rem;
             margin: 1.25rem 0 1.5rem;
             padding: 1rem;
             background: var(--background-light);
@@ -229,33 +231,34 @@
         }
 
         .project-stats.four-stats {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(4, 1fr);
         }
 
         .stat-item {
             text-align: center;
-            padding: 0.75rem 0.8rem;
+            padding: 1rem;
             background: var(--white);
             border: 1px solid var(--border-color);
             border-radius: 12px;
         }
 
         .stat-number {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 800;
             color: var(--primary-dark);
             display: block;
-            margin-bottom: 0.15rem;
+            margin-bottom: 0.25rem;
             letter-spacing: -0.2px;
         }
 
         .stat-label {
             text-align: center;
-            font-size: 0.72rem;
+            font-size: 0.8rem;
             color: var(--text-light);
             text-transform: none;
             letter-spacing: 0px;
-            line-height: 1.35;
+            line-height: 1.4;
+            white-space: nowrap;
         }
 
         .project-features {
@@ -431,7 +434,11 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             .projects-grid {
-                grid-template-columns: 1fr;
+                flex-direction: column;
+            }
+
+            .project-card {
+                width: 100%;
             }
 
             .project-stats {
@@ -463,17 +470,25 @@
 
         @media (min-width: 769px) and (max-width: 1024px) {
             .projects-grid {
-                grid-template-columns: repeat(2, 1fr);
+                flex-direction: column;
+            }
+
+            .project-card {
+                width: 100%;
             }
 
             .project-stats.four-stats {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(4, 1fr);
             }
         }
 
         @media (min-width: 1025px) {
             .projects-grid {
-                grid-template-columns: repeat(3, 1fr);
+                flex-direction: column;
+            }
+
+            .project-card {
+                width: 100%;
             }
 
             .project-stats.four-stats {
@@ -774,7 +789,7 @@
 
     <!-- Footer -->
     <footer>
-        <div class="footer-text">© 2026 AI Tools for Kingdom Professionals - Eden Mandate. All rights reserved.</div>
+        <div class="footer-text">© 2025 AI Tools for Kingdom Professionals - Eden Mandate. All rights reserved.</div>
         <div class="footer-text" style="margin-top: 0.5rem; font-size: 0.875rem;">Empowering Kingdom Leaders with Ethical AI Solutions</div>
     </footer>
 </body>
